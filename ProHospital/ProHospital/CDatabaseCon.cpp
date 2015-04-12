@@ -165,3 +165,10 @@ bool CDatabaseCon::ExecuteSql( UString& sql )
 	return true;
 }
 
+
+UString HelpFun::FormattoUStr( const char* str,... )
+{
+	std::string m_str = std::string(str);
+
+}
+

@@ -33,5 +33,6 @@ protected:
 class HelpFun
 {
 public:
-	static UString FormattoU();
+	static UString FormattoUStr( const char* str,... );
+
 };
