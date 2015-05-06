@@ -99,21 +99,21 @@ BOOL CProHospitalDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 
 	// TODO: Add extra initialization here
-	CDatabaseCon con;
-
-	bool res = con.Connect_(2003, UString(L"F:\\test\\newe.mdb"), UString(L""), UString(L""));
-	
-	if (!res)
-	{
-		AfxMessageBox(L"连接数据库失败！");
-		con_ok = FALSE;
-	}else
-	{
-		con_ok = TRUE;
-	}
-
-	res = con.ExecuteSql(UString(L"SELECT * FROM UpdateData"));
-	UString name = con.GetValueStr(UString(L"NameStore"));
+// 	CDatabaseCon con;
+// 
+// 	bool res = con.Connect_(2003, UString(L"F:\\test\\newe.mdb"), UString(L""), UString(L""));
+// 	
+// 	if (!res)
+// 	{
+// 		AfxMessageBox(L"连接数据库失败！");
+// 		con_ok = FALSE;
+// 	}else
+// 	{
+// 		con_ok = TRUE;
+// 	}
+// 
+// 	res = con.ExecuteSql(UString(L"SELECT * FROM UpdateData"));
+// 	UString name = con.GetValueStr(UString(L"NameStore"));
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
