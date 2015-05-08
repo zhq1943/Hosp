@@ -3,10 +3,13 @@
 //
 
 #include "stdafx.h"
+#include "resource.h"
 #include "ProHospital.h"
 #include "ProHospitalDlg.h"
 #include "afxdialogex.h"
 #include "CDatabaseCon.h"
+#include "CUser.h"
+#include "DlgUser.h"
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -50,6 +53,8 @@ END_MESSAGE_MAP()
 
 CProHospitalDlg::CProHospitalDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(CProHospitalDlg::IDD, pParent)
+	, m_username(_T(""))
+	, m_userpass(_T(""))
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
@@ -57,6 +62,8 @@ CProHospitalDlg::CProHospitalDlg(CWnd* pParent /*=NULL*/)
 void CProHospitalDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
+	DDX_Text(pDX, IDC_EDIT_USER, m_username);
+	DDX_Text(pDX, IDC_EDIT_MIMA, m_userpass);
 }
 
 BEGIN_MESSAGE_MAP(CProHospitalDlg, CDialogEx)
@@ -172,13 +179,20 @@ HCURSOR CProHospitalDlg::OnQueryDragIcon()
 void CProHospitalDlg::OnBnClickedOk()
 {
 	// TODO: Add your control notification handler code here
-	CDatabaseCon con;
-	bool res = con.Connect_(2003, CONDATA,  UString(L""), UString(L""));
-	if (!res)
+	UpdateData();
+	CUser user;
+	bool res_ = user.CheckUser(wstring(m_username), wstring(m_userpass));
+	if (res_)
 	{
-		return;
-	}
+// 		CString per_num;
+// 		per_num.Format(L"%d", user.GetPer());
+// 		AfxMessageBox(per_num);
+		CDlgUser dlg(user, NULL);
+		dlg.DoModal();
 
-	con.ExecuteSql(UString(L"select * from UserTab where User = "))
-	CDialogEx::OnOK();
+	}else
+	{
+		
+		AfxMessageBox(L"用户名或密码错误！！");
+	}
 }

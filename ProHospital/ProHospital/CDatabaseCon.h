@@ -22,6 +22,7 @@ public:
 	float       GetValueFlo(UString& name);
 	bool        NextRecord();
 	bool        Eof();
+	bool        GoFirst();
 
 protected:
 	_RecordsetPtr m_RecSet;

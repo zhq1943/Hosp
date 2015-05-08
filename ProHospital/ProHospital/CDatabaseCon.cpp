@@ -5,13 +5,13 @@ CDatabaseCon::CDatabaseCon()
 	m_Connptr = NULL;
 	m_RecSet = NULL;
 
-	if(AfxOleInit())
-	{
-		iniole = true;
-	}else
-	{
-		iniole = false;
-	}
+// 	if(AfxOleInit())
+// 	{
+// 		iniole = true;
+// 	}else
+// 	{
+// 		iniole = false;
+// 	}
 }
 
 CDatabaseCon::~CDatabaseCon()
@@ -20,7 +20,6 @@ CDatabaseCon::~CDatabaseCon()
 	{
 		m_RecSet->Close();
 		m_RecSet.Release();
-		m_RecSet = NULL;
 	}catch(...)
 	{
 		m_RecSet = NULL;
@@ -34,18 +33,12 @@ UString CDatabaseCon::GetValueStr( UString& name )
 	_variant_t v;
 	try
 	{
-		 v =( m_RecSet->GetCollect(_variant_t(name.c_str())));
-		if (v.vt == VT_NULL)
-		{
-			return EmpStr;
-		}
-
+		v =( m_RecSet->GetCollect(name.c_str()));
 	}catch(_com_error e)
 	{
 		e.ErrorMessage();
 	}
 	
-
 	return (wchar_t*)(_bstr_t)v;
 }
 
@@ -105,6 +98,7 @@ bool CDatabaseCon::Connect_(int ver, UString& datapos, UString& username, UStrin
 	catch (_com_error e)
 	{
 		e.ErrorMessage();
+		return false;
 	}
 	catch (CFileException* e)
 	{
@@ -112,13 +106,22 @@ bool CDatabaseCon::Connect_(int ver, UString& datapos, UString& username, UStrin
 	catch (CException* e)
 	{
 	}
+
+	return false;
 }
 
 bool CDatabaseCon::Close_()
 {
-	m_Connptr->Close();
-	m_Connptr->Release();
-	m_Connptr = NULL;
+	try
+	{
+		m_Connptr->Close();
+		m_Connptr.Release();
+	}catch(_com_error e)
+	{
+		e.ErrorMessage();
+		return false;
+	}
+
 	return true;
 }
 
@@ -165,10 +168,23 @@ bool CDatabaseCon::ExecuteSql( UString& sql )
 	return true;
 }
 
+bool CDatabaseCon::GoFirst()
+{
+	if(!m_RecSet->BOF) 
+	{
+		m_RecSet->MoveFirst(); 
+	    return true;
+	}
+	else  
+	{  
+		return false;  
+	}  
+}
+
 
 UString HelpFun::FormattoUStr( const char* str,... )
 {
 	std::string m_str = std::string(str);
-
+	return L"";
 }
 

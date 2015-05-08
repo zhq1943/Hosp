@@ -1,13 +1,14 @@
+#pragma once
 #include <iostream>
 #include "CDatabaseCon.h"
 using namespace std;
-wstring database_ = L".//newe.mdb";
+extern wstring database_;
 
 class CUser
 {
 public:
 	CUser();
-	CUser(const CUser&);
+	CUser( CUser&);
 	virtual ~CUser();
 
 private:
@@ -19,6 +20,20 @@ private:
 
 public:
 	bool CheckUser(wstring name, wstring password);
+	int GetPer()
+	{
+		return per;
+	}
+
+	wstring GetUserName_()
+	{
+		return user_name;
+	}
+
+	wstring GetPass()
+	{
+		return passworld;
+	}
 
 };
 

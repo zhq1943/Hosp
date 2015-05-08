@@ -32,4 +32,6 @@ protected:
 public:
 	afx_msg void OnBnClickedOk();
 	BOOL con_ok;
+	CString m_username;
+	CString m_userpass;
 };
