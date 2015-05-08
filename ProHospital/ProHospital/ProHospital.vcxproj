@@ -103,6 +103,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CDatabaseCon.h" />
+    <ClInclude Include="DlgUser.h" />
     <ClInclude Include="ProHospital.h" />
     <ClInclude Include="ProHospitalDlg.h" />
     <ClInclude Include="Resource.h" />
@@ -111,6 +112,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CDatabaseCon.cpp" />
+    <ClCompile Include="DlgUser.cpp" />
     <ClCompile Include="ProHospital.cpp" />
     <ClCompile Include="ProHospitalDlg.cpp" />
     <ClCompile Include="stdafx.cpp">
