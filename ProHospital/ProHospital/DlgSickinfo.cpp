@@ -55,24 +55,44 @@ void CDlgSickinfo::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CDlgSickinfo, CDialog)
 END_MESSAGE_MAP()
 
-void CDlgSickinfo::SetInfo( NormalUser& user_)
+void CDlgSickinfo::SetInfo( CUser* user_)
 {
-	UserSickInfo sick;
-	user_.GetSickInfo(sick);
+	NormalUser* nor_user = NULL;
+	if (user_->GetPer() == 1)
+	{
+		AdminUser* adu = dynamic_cast<AdminUser*>(user_);
+		if (adu)
+		{
+			nor_user = &(adu->cur_nuser);
+		}
+	}
 
-	 m_name = sick.name.c_str();
-	 m_timein = sick.timein.c_str();
-	 m_timeout = sick.timewrite.c_str();
-	 m_patkb = sick.patkb.c_str();
-	 m_badid = sick.badid.c_str();
-	 m_hosid = sick.hosid.c_str();
-	 m_pasid = sick.pasid.c_str();
-	 m_ttalk = sick.ttalk.c_str();
-	 m_mtalk = sick.mtalk.c_str();
-	 m_nsick = sick.nsick.c_str();
-	 m_vincheck = sick.incheck.c_str();
-	 m_outcheck = sick.outcheck.c_str();
-	 UpdateData(FALSE);
+	if (user_->GetPer() == 0)
+	{
+		nor_user = dynamic_cast<NormalUser*>(user_);
+	}
+
+	if (nor_user)
+	{
+
+		UserSickInfo sick;
+		nor_user->GetSickInfo(sick);
+
+		m_name = sick.name.c_str();
+		m_timein = sick.timein.c_str();
+		m_timeout = sick.timewrite.c_str();
+		m_patkb = sick.patkb.c_str();
+		m_badid = sick.badid.c_str();
+		m_hosid = sick.hosid.c_str();
+		m_pasid = sick.pasid.c_str();
+		m_ttalk = sick.ttalk.c_str();
+		m_mtalk = sick.mtalk.c_str();
+		m_nsick = sick.nsick.c_str();
+		m_vincheck = sick.incheck.c_str();
+		m_outcheck = sick.outcheck.c_str();
+		UpdateData(FALSE);
+
+	}
 }
 
 

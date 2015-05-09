@@ -35,6 +35,7 @@ private:
 	CDlgAdminInfo dlg_admininfo;
 	CDlgAdminGLUser dlg_admingluser;
 	CDlgAdminGLSick dlg_adminglsick;
+	vector<UserLoginfo> alluser;
 	
 public:
 	CTabCtrl m_tabctrl;

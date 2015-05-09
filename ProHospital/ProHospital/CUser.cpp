@@ -395,3 +395,47 @@ AdminUser::~AdminUser()
 {
 
 }
+
+void AdminUser::GetUserLoginInfo( vector<UserLoginfo>& all )
+{
+	all.clear();
+	CDatabaseCon con;
+
+	bool res = con.Connect_(2003, wstring(L".\\newe.mdb"), UString(L""), UString(L""));
+
+	if (!res)
+	{
+		return ;
+	}
+
+	wstring search_med = wstring(L"SELECT * FROM UserTab");
+
+	res = con.ExecuteSql(search_med);
+	if (!res)
+	{
+		return ;
+	}
+
+	if (!con.GoFirst())
+	{
+		return ;
+	}
+
+	try
+	{
+		UserLoginfo linfo;
+		while(!con.Eof())
+		{
+			linfo.lasttime = con.GetValueStr(wstring(L"LastTime"));
+			linfo.password = con.GetValueStr(wstring(L"Password"));
+			linfo.uname = con.GetValueStr(wstring(L"User"));
+
+			// medread = con.GetValueStr(UString(L"Timein"));
+			all.push_back(linfo);
+			con.NextRecord();
+		}
+	}catch(_com_error e)
+	{
+		return ;
+	}
+}

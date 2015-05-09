@@ -23,5 +23,9 @@ protected:
 public:
 	CListCtrl m_usergl;
 	virtual BOOL OnInitDialog();
+	void SetInfo(vector<UserLoginfo>& alluser);
 	
+	afx_msg void OnNMDblclkListUser(NMHDR *pNMHDR, LRESULT *pResult);
+	afx_msg void OnNMRClickListUser(NMHDR *pNMHDR, LRESULT *pResult);
+	CMenu cpop_menu;
 };

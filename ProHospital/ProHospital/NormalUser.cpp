@@ -44,6 +44,7 @@ void CNormalUser::DoDataExchange(CDataExchange* pDX)
 
 
 BEGIN_MESSAGE_MAP(CNormalUser, CDialog)
+	ON_BN_CLICKED(IDC_BUTTON_ADMODIUSERINFO, &CNormalUser::OnBnClickedButtonAdmodiuserinfo)
 END_MESSAGE_MAP()
 
 BOOL CNormalUser::OnInitDialog()
@@ -71,3 +72,14 @@ void CNormalUser::SetInfo(NormalUser& user_)
 
 
 // CNormalUser message handlers
+
+
+void CNormalUser::OnBnClickedButtonAdmodiuserinfo()
+{
+	// TODO: Add your control notification handler code here
+}
+
+void CNormalUser::SetModvis()
+{
+	GetDlgItem(IDC_BUTTON_ADMODIUSERINFO)->ShowWindow(TRUE);
+}

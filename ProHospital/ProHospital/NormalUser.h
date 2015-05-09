@@ -30,4 +30,6 @@ public:
 	CString m_liveplace;
 	CString m_ifmarry;
 	void SetInfo(NormalUser&);
+	void SetModvis();
+	afx_msg void OnBnClickedButtonAdmodiuserinfo();
 };

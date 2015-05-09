@@ -39,7 +39,7 @@ BOOL CDlgUser::OnInitDialog()
 
 	CRect rc; 
 	m_tabctrl.GetClientRect(&rc);
-	rc.top  += 20;   
+	rc.top  += 25;   
 	rc.left +=  1;
 	rc.bottom -= 1;
 	rc.right -= 1; 	
@@ -64,13 +64,20 @@ BOOL CDlgUser::OnInitDialog()
 		dlg_admingluser.SetParent(&m_tabctrl);
 		dlg_admingluser.MoveWindow(&rc);
 		dlg_admingluser.ShowWindow(false);
+		aduser.GetUserLoginInfo(alluser);
+		dlg_admingluser.SetInfo(alluser);
+
+		dlg_sickinfo.Create(IDD_DIALOG_SICKINFO, GetDlgItem(IDD_DIALOG_SICKINFO));
+		dlg_sickinfo.SetParent(&m_tabctrl);
+		dlg_sickinfo.MoveWindow(&rc);
+		dlg_sickinfo.ShowWindow(false);
+		dlg_sickinfo.SetInfo((CUser*)&aduser);
 
 		dlg_adminglsick.Create(IDD_DIALOG_ADMINGLSICK, GetDlgItem(IDD_DIALOG_ADMINGLSICK));
 		dlg_adminglsick.SetParent(&m_tabctrl);
 		dlg_adminglsick.MoveWindow(&rc);
 		dlg_adminglsick.ShowWindow(false);
 		dlg_adminglsick.SetSickInfo((CUser*)&aduser);
-
 
 	}
 
@@ -97,7 +104,7 @@ BOOL CDlgUser::OnInitDialog()
 		dlg_sickinfo.SetParent(&m_tabctrl);
 		dlg_sickinfo.MoveWindow(&rc);
 		dlg_sickinfo.ShowWindow(false);
-		dlg_sickinfo.SetInfo(noruser);
+		dlg_sickinfo.SetInfo((CUser*)&noruser);
 
 		dlg_adminglsick.Create(IDD_DIALOG_ADMINGLSICK, GetDlgItem(IDD_DIALOG_ADMINGLSICK));
 		dlg_adminglsick.SetParent(&m_tabctrl);

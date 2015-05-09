@@ -35,6 +35,6 @@ public:
 	CEdit m_incheck;
 	CString m_outcheck;
 
-	void SetInfo(NormalUser&);
+	void SetInfo(CUser*);
 	CString m_vincheck;
 };

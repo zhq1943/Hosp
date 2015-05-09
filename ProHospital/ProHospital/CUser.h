@@ -6,6 +6,13 @@
 using namespace std;
 extern wstring database_;
 
+struct UserLoginfo
+{
+	wstring uname;
+	wstring password;
+	wstring lasttime;
+};
+
 struct UserInfoStru
 {
 	wstring name;
@@ -132,4 +139,8 @@ public:
 private:
 	wstring name;
 	int per;
+
+public:
+	void  GetUserLoginInfo(vector<UserLoginfo>& all);
+
 };
