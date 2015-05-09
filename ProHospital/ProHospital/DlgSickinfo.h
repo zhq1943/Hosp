@@ -1,5 +1,6 @@
 #pragma once
 #include "CUser.h"
+#include "afxwin.h"
 
 // CDlgSickinfo dialog
 
@@ -20,4 +21,20 @@ protected:
 	DECLARE_MESSAGE_MAP()
 
 	CUser m_user;
+public:
+	CString m_name;
+	CString m_timein;
+	CString m_timeout;
+	CString m_patkb;
+	CString m_badid;
+	CString m_hosid;
+	CString m_pasid;
+	CString m_ttalk;
+	CString m_mtalk;
+	CString m_nsick;
+	CEdit m_incheck;
+	CString m_outcheck;
+
+	void SetInfo(NormalUser&);
+	CString m_vincheck;
 };

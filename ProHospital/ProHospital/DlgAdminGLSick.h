@@ -1,5 +1,6 @@
 #pragma once
-
+#include "afxwin.h"
+#include "CUser.h"
 
 // CDlgAdminGLSick dialog
 
@@ -18,4 +19,14 @@ protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 
 	DECLARE_MESSAGE_MAP()
+public:
+	CString m_username;
+	CString m_name;
+	CComboBox m_time;
+	afx_msg void OnBnClickedButtonModify();
+	afx_msg void OnBnClickedButtonCreate();
+	afx_msg void OnBnClickedButtonPer();
+	afx_msg void OnBnClickedButtonNext();
+	void SetSickInfo(CUser* );
+	CString m_sickrec;
 };

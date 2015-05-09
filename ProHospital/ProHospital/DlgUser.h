@@ -28,6 +28,8 @@ protected:
 
 private:
 	CUser userlogin;
+	NormalUser noruser;
+	AdminUser aduser;
 	CNormalUser dlg_info;
 	CDlgSickinfo dlg_sickinfo;
 	CDlgAdminInfo dlg_admininfo;

@@ -7,7 +7,6 @@
 #include "afxdialogex.h"
 #include "NormalUser.h"
 
-
 // CDlgUser dialog
 
 IMPLEMENT_DYNAMIC(CDlgUser, CDialog)
@@ -47,10 +46,14 @@ BOOL CDlgUser::OnInitDialog()
 
 	if (userlogin.GetPer() == 1)
 	{
+		aduser = userlogin;
+		
+
 		int index = m_tabctrl.GetItemCount();
 		m_tabctrl.InsertItem(index, L"管理员信息");
 		m_tabctrl.InsertItem(index+1, L"用户管理");
 		m_tabctrl.InsertItem(index+2, L"病历管理");
+		m_tabctrl.InsertItem(index+3, L"入院记录管理");
 
 		dlg_admininfo.Create(IDD_DIALOG_ADMININFO, GetDlgItem(IDD_DIALOG_ADMININFO));
 		dlg_admininfo.SetParent(&m_tabctrl);
@@ -62,29 +65,45 @@ BOOL CDlgUser::OnInitDialog()
 		dlg_admingluser.MoveWindow(&rc);
 		dlg_admingluser.ShowWindow(false);
 
-		dlg_adminglsick.Create(IDD_DIALOG_ADMINGLUSER, GetDlgItem(IDD_DIALOG_ADMINGLUSER));
+		dlg_adminglsick.Create(IDD_DIALOG_ADMINGLSICK, GetDlgItem(IDD_DIALOG_ADMINGLSICK));
 		dlg_adminglsick.SetParent(&m_tabctrl);
 		dlg_adminglsick.MoveWindow(&rc);
 		dlg_adminglsick.ShowWindow(false);
+		dlg_adminglsick.SetSickInfo((CUser*)&aduser);
 
 
 	}
 
 	if (userlogin.GetPer() == 0)
 	{
+		NormalUser nuser;
+		noruser = userlogin;
+		nuser = userlogin;
+		nuser.InitUserInfo();
+		noruser.InitUserInfo();
+
 		int index = m_tabctrl.GetItemCount();
 		m_tabctrl.InsertItem(index,L"个人信息");
 		m_tabctrl.InsertItem(index+1, L"病历单");
+		m_tabctrl.InsertItem(index+2, L"入院记录");
 
 		dlg_info.Create(IDD_DIALOG_USERSET, GetDlgItem(IDD_DIALOG_USERSET));
 		dlg_info.SetParent(&m_tabctrl);
 		dlg_info.MoveWindow(&rc);
 		dlg_info.ShowWindow(true);
+		dlg_info.SetInfo(noruser);
 
 		dlg_sickinfo.Create(IDD_DIALOG_SICKINFO, GetDlgItem(IDD_DIALOG_SICKINFO));
 		dlg_sickinfo.SetParent(&m_tabctrl);
 		dlg_sickinfo.MoveWindow(&rc);
 		dlg_sickinfo.ShowWindow(false);
+		dlg_sickinfo.SetInfo(noruser);
+
+		dlg_adminglsick.Create(IDD_DIALOG_ADMINGLSICK, GetDlgItem(IDD_DIALOG_ADMINGLSICK));
+		dlg_adminglsick.SetParent(&m_tabctrl);
+		dlg_adminglsick.MoveWindow(&rc);
+		dlg_adminglsick.ShowWindow(false);
+		dlg_adminglsick.SetSickInfo((CUser*)&noruser);
 
 	}
 	
@@ -110,12 +129,21 @@ void CDlgUser::OnTcnSelchangeTab1(NMHDR *pNMHDR, LRESULT *pResult)
 		{
 			dlg_info.ShowWindow(true);
 			dlg_sickinfo.ShowWindow(false);
+			dlg_adminglsick.ShowWindow(false);
 		}
 
 		if (nNewSel == 1)
 		{
 			dlg_sickinfo.ShowWindow(true);
 			dlg_info.ShowWindow(false);
+			dlg_adminglsick.ShowWindow(false);
+		}
+
+		if (nNewSel == 2)
+		{
+			dlg_sickinfo.ShowWindow(false);
+			dlg_info.ShowWindow(false);
+			dlg_adminglsick.ShowWindow(true);
 		}
 	}
 

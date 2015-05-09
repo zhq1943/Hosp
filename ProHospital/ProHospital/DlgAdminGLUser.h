@@ -1,4 +1,6 @@
 #pragma once
+#include "afxcmn.h"
+#include "CUser.h"
 
 
 // CDlgAdminGLUser dialog
@@ -18,4 +20,8 @@ protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 
 	DECLARE_MESSAGE_MAP()
+public:
+	CListCtrl m_usergl;
+	virtual BOOL OnInitDialog();
+	
 };
