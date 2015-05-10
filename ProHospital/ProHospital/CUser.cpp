@@ -237,7 +237,7 @@ void NormalUser::GetSickInfo( UserSickInfo& stru_)
 	stru_.badid = badid;
 	stru_.hosid = hosid;
 	stru_.incheck = incheck;
-	stru_.medread = medread;
+	stru_.ntalk =ntalk;
 	stru_.mtalk = mtalk;
 	stru_.nsick = nsick;
 	stru_.outcheck = outcheck;
@@ -263,6 +263,31 @@ bool NormalUser::InitUserInfo()
 	bool res = con.Connect_(2003, wstring(L".\\newe.mdb"), UString(L""), UString(L""));
 
 	if (!res)
+	{
+		return false;
+	}
+
+	wstring userinfo_s = wstring(L"select * from UserTab where User = '");
+	userinfo_s += uname.c_str();
+	userinfo_s += L"'";
+	res = con.ExecuteSql(userinfo_s);
+	if (!res)
+	{
+		return false;
+	}
+
+	if (!con.GoFirst())
+	{
+		return false;
+	}
+
+	try
+	{
+		uname = con.GetValueStr(wstring(L"User"));
+		paword = con.GetValueStr(wstring(L"Password"));
+		per = con.GetValueInt(wstring(L"Promission"));
+		lastlgtime = con.GetValueStr(wstring(L"LastTime"));
+	}catch(_com_error e)
 	{
 		return false;
 	}
@@ -372,6 +397,14 @@ void NormalUser::GetMedRecdVector(map<wstring, wstring>& allrec)
 	allrec = hosrecord;
 }
 
+void NormalUser::GetLoginInfo( UserLoginfo& str_ )
+{
+	str_.lasttime = lastlgtime;
+	str_.password = paword;
+	str_.per_ = per;
+	str_.uname = uname;
+}
+
 
 
 
@@ -380,12 +413,14 @@ AdminUser::AdminUser()
 
 }
 
-AdminUser::AdminUser( const AdminUser& )
+AdminUser::AdminUser( AdminUser& u)
 {
-
+	per = u.GetAdPer();
+	name = u.GetAdName();
 }
 
 AdminUser::AdminUser( CUser& u)
+	:CUser(u)
 {
 	per = u.GetPer();
 	name = u.GetUserName_();
@@ -429,13 +464,272 @@ void AdminUser::GetUserLoginInfo( vector<UserLoginfo>& all )
 			linfo.lasttime = con.GetValueStr(wstring(L"LastTime"));
 			linfo.password = con.GetValueStr(wstring(L"Password"));
 			linfo.uname = con.GetValueStr(wstring(L"User"));
-
-			// medread = con.GetValueStr(UString(L"Timein"));
+			linfo.per_ = con.GetValueInt(wstring(L"Promission"));
+			linfo.name = con.GetValueStr(wstring(L"UserName"));
 			all.push_back(linfo);
 			con.NextRecord();
 		}
 	}catch(_com_error e)
 	{
 		return ;
+	}
+}
+
+bool AdminUser::UpdateNorUser( UserInfoStru& stru_ )
+{
+	
+	CDatabaseCon con;
+
+	bool res = con.Connect_(2003, wstring(L".\\newe.mdb"), UString(L""), UString(L""));
+
+	if (!res)
+	{
+		return false;
+	}
+
+	wstring search_med = wstring(L"SELECT * FROM UserInfo");
+
+	res = con.ExecuteSql(search_med);
+	if (!res)
+	{
+		return false;
+	}
+
+	if (!con.GoFirst())
+	{
+		return false;
+	}
+
+	try
+	{
+		UserLoginfo linfo;
+		while(!con.Eof())
+		{
+			wstring m_uname = con.GetValueStr(wstring(L"User"));
+			if (m_uname == stru_.uname)
+			{
+				con.SetValueStr(wstring(L"UserName"), stru_.name);
+				con.SetValueStr(wstring(L"UserSex"), stru_.sex);
+				con.SetValueStr(wstring(L"UserBirth"), stru_.birthday);
+				con.SetValueStr(wstring(L"UserPlace"), stru_.liveplace);
+				con.SetValueStr(wstring(L"UserWork"), stru_.warkplace);
+				con.SetValueStr(wstring(L"UserLive"), stru_.liveplace);
+				con.SetValueStr(wstring(L"UserMarry"), stru_.marrys);
+				con.UpdateOk();
+				break;
+			}
+			
+			con.NextRecord();
+		}
+
+		if (con.Eof())
+		{
+			con.NewRecord();
+			con.SetValueStr(wstring(L"User"), stru_.uname);
+			con.SetValueStr(wstring(L"UserName"), stru_.name);
+			con.SetValueStr(wstring(L"UserSex"), stru_.sex);
+			con.SetValueStr(wstring(L"UserBirth"), stru_.birthday);
+			con.SetValueStr(wstring(L"UserPlace"), stru_.liveplace);
+			con.SetValueStr(wstring(L"UserWork"), stru_.warkplace);
+			con.SetValueStr(wstring(L"UserLive"), stru_.liveplace);
+			con.SetValueStr(wstring(L"UserMarry"), stru_.marrys);
+			con.UpdateOk();
+
+		}
+	}catch(_com_error e)
+	{
+		return false;
+	}
+}
+
+bool AdminUser::UpdateNorLogin( UserLoginfo& stru_ )
+{
+	CDatabaseCon con;
+
+	bool res = con.Connect_(2003, wstring(L".\\newe.mdb"), UString(L""), UString(L""));
+
+	if (!res)
+	{
+		return false;
+	}
+
+	wstring search_med = wstring(L"SELECT * FROM UserTab");
+
+	res = con.ExecuteSql(search_med);
+	if (!res)
+	{
+		return false;
+	}
+
+	if (!con.GoFirst())
+	{
+		return false;
+	}
+
+	try
+	{
+		UserLoginfo linfo;
+		while(!con.Eof())
+		{
+
+			wstring username = con.GetValueStr(wstring(L"User"));
+			if (stru_.uname == username)
+			{
+				con.SetValueStr(wstring(L"Password"), stru_.password);
+				con.SetValueInt(wstring(L"Promission"), stru_.per_);
+				con.SetValueStr(wstring(L"Lasttime"), stru_.lasttime);
+				con.UpdateOk();
+				break;
+			}
+
+			con.NextRecord();
+		}
+
+		if (con.Eof())
+		{
+			con.NewRecord();
+			con.SetValueStr(wstring(L"User"), stru_.uname);
+			con.SetValueInt(wstring(L"Promission"), stru_.per_);
+			con.SetValueStr(wstring(L"Lasttime"), stru_.lasttime);
+			con.SetValueStr(wstring(L"Password"), stru_.password);
+			con.UpdateOk();
+		}
+	}catch(_com_error e)
+	{
+		return false;
+	}
+}
+
+bool AdminUser::UpdateNorSick( UserSickInfo& stru_ )
+{
+	CDatabaseCon con;
+
+	bool res = con.Connect_(2003, wstring(L".\\newe.mdb"), UString(L""), UString(L""));
+
+	if (!res)
+	{
+		return false;
+	}
+
+	wstring search_med = wstring(L"SELECT * FROM UserSick");
+
+	res = con.ExecuteSql(search_med);
+	if (!res)
+	{
+		return false;
+	}
+
+	if (!con.GoFirst())
+	{
+		return false;
+	}
+
+	try
+	{
+		UserLoginfo linfo;
+		while(!con.Eof())
+		{
+
+			wstring username = con.GetValueStr(wstring(L"User"));
+			if (stru_.uname == username)
+			{
+				con.SetValueStr(wstring(L"Timein"), stru_.timein);
+				con.SetValueStr(wstring(L"Timeout"), stru_.timewrite);
+				con.SetValueStr(wstring(L"Patkb"), stru_.patkb);
+				con.SetValueStr(wstring(L"Badid"), stru_.badid);
+				con.SetValueStr(wstring(L"Hosid"), stru_.hosid);
+				con.SetValueStr(wstring(L"Pasid"), stru_.pasid);
+				con.SetValueStr(wstring(L"Ttalk"), stru_.ttalk);
+				con.SetValueStr(wstring(L"Mtalk"), stru_.mtalk);
+				con.SetValueStr(wstring(L"Ntalk"), stru_.ntalk);
+				con.SetValueStr(wstring(L"Nsick"), stru_.nsick);
+				con.SetValueStr(wstring(L"Incheck"), stru_.incheck);
+				con.SetValueStr(wstring(L"Outcheck"), stru_.outcheck);
+				con.UpdateOk();
+				break;
+			}
+
+			con.NextRecord();
+		}
+
+		if (con.Eof())
+		{
+			con.NewRecord();
+			con.SetValueStr(wstring(L"User"), stru_.uname);
+			con.SetValueStr(wstring(L"UserName"), stru_.name);
+			con.SetValueStr(wstring(L"Timein"), stru_.timein);
+			con.SetValueStr(wstring(L"Timeout"), stru_.timewrite);
+			con.SetValueStr(wstring(L"Patkb"), stru_.patkb);
+			con.SetValueStr(wstring(L"Badid"), stru_.badid);
+			con.SetValueStr(wstring(L"Hosid"), stru_.hosid);
+			con.SetValueStr(wstring(L"Pasid"), stru_.pasid);
+			con.SetValueStr(wstring(L"Ttalk"), stru_.ttalk);
+			con.SetValueStr(wstring(L"Mtalk"), stru_.mtalk);
+			con.SetValueStr(wstring(L"Ntalk"), stru_.ntalk);
+			con.SetValueStr(wstring(L"Nsick"), stru_.nsick);
+			con.SetValueStr(wstring(L"Incheck"), stru_.incheck);
+			con.SetValueStr(wstring(L"Outcheck"), stru_.outcheck);
+			con.UpdateOk();
+		}
+	}catch(_com_error e)
+	{
+		return false;
+	}
+}
+
+bool AdminUser::UpdateUserRecord( UserRecordInfo& stru_ )
+{
+	CDatabaseCon con;
+
+	bool res = con.Connect_(2003, wstring(L".\\newe.mdb"), UString(L""), UString(L""));
+
+	if (!res)
+	{
+		return false;
+	}
+
+	wstring search_med = wstring(L"SELECT * FROM UserMedRecord");
+
+	res = con.ExecuteSql(search_med);
+	if (!res)
+	{
+		return false;
+	}
+
+	if (!con.GoFirst())
+	{
+		return false;
+	}
+
+	try
+	{
+		UserLoginfo linfo;
+		while(!con.Eof())
+		{
+
+			wstring username = con.GetValueStr(wstring(L"User"));
+			wstring time_ = con.GetValueStr(wstring(L"time"));
+			if (stru_.user_ == username&&stru_.time_ == time_)
+			{
+				con.SetValueStr(wstring(L"time"), stru_.time_);
+				con.UpdateOk();
+				break;
+			}
+
+			con.NextRecord();
+		}
+
+		if (con.Eof())
+		{
+			con.NewRecord();
+			con.SetValueStr(wstring(L"User"), stru_.user_);
+			con.SetValueStr(wstring(L"time"), stru_.time_);
+			con.SetValueStr(wstring(L"Medrecord"), stru_.record);
+
+			con.UpdateOk();
+		}
+	}catch(_com_error e)
+	{
+		return false;
 	}
 }

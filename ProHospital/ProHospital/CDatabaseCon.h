@@ -23,6 +23,10 @@ public:
 	bool        NextRecord();
 	bool        Eof();
 	bool        GoFirst();
+	bool        SetValueStr(UString& key, UString& val);
+	bool        SetValueInt(UString& key, int i);
+	bool        NewRecord();
+	bool        UpdateOk();
 
 protected:
 	_RecordsetPtr m_RecSet;

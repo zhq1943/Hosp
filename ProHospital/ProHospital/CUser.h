@@ -9,24 +9,27 @@ extern wstring database_;
 struct UserLoginfo
 {
 	wstring uname;
+	wstring name;
 	wstring password;
 	wstring lasttime;
+	int per_;
 };
 
 struct UserInfoStru
 {
-	wstring name;
-	wstring sex;
-	wstring birthday;
-	wstring birthplace;
-	wstring warkplace;
-	wstring liveplace;
-	wstring marrys;
-	wstring uname; //id
+	wstring name;//name
+	wstring sex;//usersex
+	wstring birthday;//userbirth
+	wstring birthplace;//userlive
+	wstring warkplace;//userwork
+	wstring liveplace;//userplace
+	wstring marrys;//ifmarry
+	wstring uname; //user
 };
 
 struct UserSickInfo
 {
+	wstring uname;
 	wstring name;
 	wstring timein;
 	wstring timewrite;
@@ -39,7 +42,14 @@ struct UserSickInfo
 	wstring nsick;
 	wstring incheck;
 	wstring outcheck;
-	wstring medread;
+	wstring ntalk;
+};
+
+struct UserRecordInfo
+{
+	wstring time_;
+	wstring user_;
+	wstring record;
 };
 class CUser
 {
@@ -72,6 +82,8 @@ public:
 		return passworld;
 	}
 
+	
+
 	virtual bool GetUserInfo(UserInfoStru&);
 	virtual string GetDataStr(wstring& table_, wstring& name);
 	virtual bool  GetDatavector(wstring& tabel_, wstring& name, wstring& key, vector<wstring>& all_str);
@@ -88,6 +100,7 @@ public:
 private:
 	wstring name;
 	int per;
+	wstring lastlgtime;
 	
 	wstring sex;
 	wstring birthday;
@@ -95,6 +108,7 @@ private:
 	wstring warkplace;
 	wstring liveplace;
 	wstring marrys;
+	wstring paword;
 
 	//
 	wstring uname; //id
@@ -108,6 +122,7 @@ private:
 	wstring pasid;
 	wstring ttalk;
 	wstring mtalk;
+	wstring ntalk;
 	wstring nsick;
 	wstring incheck;
 
@@ -124,13 +139,19 @@ public:
 	void GetSickInfo(UserSickInfo&);
 //	wstring GetMedRead(wstring ti_); //×¡Ôº¼ÇÂ¼
 	void GetMedRecdVector(map<wstring, wstring>& );
+	void GetLoginInfo(UserLoginfo& str_);
+	void SetUserName_(wstring name_)
+	{
+		uname = name_;
+	}
+
 };
 
 class AdminUser:public CUser
 {
 public:
 	AdminUser();
-	AdminUser(const AdminUser&);
+	AdminUser(AdminUser&);
 	AdminUser(CUser&);
 	~AdminUser();
 
@@ -142,5 +163,19 @@ private:
 
 public:
 	void  GetUserLoginInfo(vector<UserLoginfo>& all);
+	bool  UpdateNorUser(UserInfoStru& stru_);
+	bool  UpdateNorLogin(UserLoginfo& stru_);
+	bool  UpdateNorSick(UserSickInfo& stru_);
+	bool  UpdateUserRecord(UserRecordInfo& stru_);
+	wstring GetAdName()
+	{
+		return name;
+	}
+
+	int GetAdPer()
+	{
+		return per;
+	}
+
 
 };

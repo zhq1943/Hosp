@@ -54,6 +54,7 @@ int CDatabaseCon::GetValueInt( UString& name )
 
 float CDatabaseCon::GetValueFlo( UString& name )
 {
+
 	_variant_t v =( m_RecSet->GetCollect(name.c_str()));
 	if (v.vt == VT_NULL)
 	{
@@ -179,6 +180,51 @@ bool CDatabaseCon::GoFirst()
 	{  
 		return false;  
 	}  
+}
+
+bool CDatabaseCon::SetValueStr( UString& key, UString& val )
+{
+	try
+	{
+		m_RecSet->PutCollect((_bstr_t)key.c_str(), (_bstr_t)val.c_str());
+	}catch(_com_error e)
+	{
+		return false;
+	}
+}
+
+bool CDatabaseCon::UpdateOk()
+{
+	try
+	{
+		m_RecSet->Update();
+
+	}catch(_com_error e)
+	{
+		return false;
+	}
+}
+
+bool CDatabaseCon::SetValueInt( UString& key, int i )
+{
+	try
+	{
+		m_RecSet->PutCollect((_bstr_t)key.c_str(), (_bstr_t)i);
+	}catch(_com_error e)
+	{
+		return false;
+	}
+}
+
+bool CDatabaseCon::NewRecord()
+{
+	try
+	{
+		m_RecSet->AddNew();
+	}catch(_com_error e)
+	{
+		return false;
+	}
 }
 
 

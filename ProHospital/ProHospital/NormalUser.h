@@ -32,4 +32,6 @@ public:
 	void SetInfo(NormalUser&);
 	void SetModvis();
 	afx_msg void OnBnClickedButtonAdmodiuserinfo();
+	afx_msg void OnBnClickedButtonInfook();
+	afx_msg void OnDestroy();
 };

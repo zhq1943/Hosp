@@ -31,6 +31,8 @@ void CDlgAdminGLUser::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CDlgAdminGLUser, CDialog)
 	ON_NOTIFY(NM_DBLCLK, IDC_LIST_USER, &CDlgAdminGLUser::OnNMDblclkListUser)
 	ON_NOTIFY(NM_RCLICK, IDC_LIST_USER, &CDlgAdminGLUser::OnNMRClickListUser)
+	ON_COMMAND(32771, &CDlgAdminGLUser::On32771)
+	ON_COMMAND(32772, &CDlgAdminGLUser::On32772)
 END_MESSAGE_MAP()
 
 BOOL CDlgAdminGLUser::OnInitDialog()
@@ -57,6 +59,10 @@ void CDlgAdminGLUser::SetInfo(vector<UserLoginfo>& alluser)
 		 ++itor)
 	{
 		UserLoginfo userinfo = *itor;
+		if (userinfo.per_ == 1)
+		{
+			continue;
+		}
 		m_usergl.InsertItem(i, userinfo.uname.c_str());
 		m_usergl.SetItemText(i, 1, userinfo.password.c_str());
 		m_usergl.SetItemText(i, 2, userinfo.lasttime.c_str());
@@ -84,15 +90,23 @@ void CDlgAdminGLUser::OnNMRClickListUser(NMHDR *pNMHDR, LRESULT *pResult)
 	// TODO: Add your control notification handler code here
 	*pResult = 0;
 
+	if (pNMItemActivate->iItem < 0||pNMItemActivate->iSubItem <0)
+	{
+		return;
+	}
+
+	sel_user =  m_usergl.GetItemText(pNMItemActivate->iItem, pNMItemActivate->iSubItem);
+	
 	/*CPoint point;
 
-	GetCursorPos(&point);
+	::GetCursorPos(&point);
 	GetDlgItem(IDC_LIST_USER)->ScreenToClient(&point);
 	//m_usergl.ScreenToClient(&point);
 	LVHITTESTINFO info;
 	info.pt=point;
-	info.flags=LVHT_TOLEFT ;
+	info.flags=LVHT_ABOVE ;
 	m_usergl.SubItemHitTest(&info);
+	m_usergl.HitTest(point);
 	if( info.iItem < 0 )
 		return;
 	//info.iItem,info.iSubItem 列表中第几行第几列
@@ -106,9 +120,9 @@ void CDlgAdminGLUser::OnNMRClickListUser(NMHDR *pNMHDR, LRESULT *pResult)
 
 	CMenu menu;
 	menu.CreatePopupMenu();
-	menu.AppendMenu(MF_STRING,IDD_MENU_MODIINFO,L"刷新");
+	menu.AppendMenu(MF_STRING,IDD_MENU_MODIINFO,L"修改个人信息");
 	menu.AppendMenu(MF_SEPARATOR);
-	menu.AppendMenu(MF_STRING,IDD_DIALOG_SICKINFO,L"添加");	
+	menu.AppendMenu(MF_STRING,32772,L"修改密码");	
 	menu.AppendMenu(MF_SEPARATOR);
 // 	menu.AppendMenu(MF_STRING,ID_MENUITEM_AMEND,"修改");
 // 	menu.AppendMenu(MF_SEPARATOR);
@@ -117,4 +131,34 @@ void CDlgAdminGLUser::OnNMRClickListUser(NMHDR *pNMHDR, LRESULT *pResult)
 	::GetCursorPos(&p);
 	menu.TrackPopupMenu(TPM_LEFTALIGN|TPM_RIGHTBUTTON, p.x, p.y, this);
 	menu.DestroyMenu();
+}
+
+
+void CDlgAdminGLUser::On32771()
+{
+	// TODO: Add your command handler code here
+	NormalUser user;
+	user.SetUserName_(wstring(sel_user));
+	user.InitUserInfo();
+	
+	dlg_noruser.Create(IDD_DIALOG_USERSET, GetDlgItem(IDD_DIALOG_USERSET));
+	dlg_noruser.SetInfo(user);
+	dlg_noruser.SetModvis();
+	dlg_noruser.ShowWindow(TRUE);
+	
+}
+
+
+void CDlgAdminGLUser::On32772()
+{
+	// TODO: Add your command handler code here
+
+	NormalUser user;
+	user.SetUserName_(wstring(sel_user));
+	user.InitUserInfo();
+	UserLoginfo m_lginfo;
+	user.GetLoginInfo(m_lginfo);
+	dlg_mima.SetUName(sel_user);
+	dlg_mima.SetUserLgInfo(m_lginfo);
+	dlg_mima.DoModal();
 }

@@ -63,6 +63,12 @@
     <ClInclude Include="DlgAdminGLSick.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DlgChangeMIMA.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgAdminOwner.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ProHospital.cpp">
@@ -96,6 +102,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DlgAdminGLSick.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgChangeMIMA.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgAdminOwner.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

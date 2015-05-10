@@ -7,6 +7,7 @@
 #include "afxdialogex.h"
 #include "NormalUser.h"
 
+
 // CDlgUser dialog
 
 IMPLEMENT_DYNAMIC(CDlgUser, CDialog)
@@ -52,13 +53,20 @@ BOOL CDlgUser::OnInitDialog()
 		int index = m_tabctrl.GetItemCount();
 		m_tabctrl.InsertItem(index, L"管理员信息");
 		m_tabctrl.InsertItem(index+1, L"用户管理");
-		m_tabctrl.InsertItem(index+2, L"病历管理");
-		m_tabctrl.InsertItem(index+3, L"入院记录管理");
+		m_tabctrl.InsertItem(index+2, L"搜索");
+		m_tabctrl.InsertItem(index+3, L"病历管理");
+		m_tabctrl.InsertItem(index+4, L"入院记录管理");
+
+		dlg_adminowner.Create(IDD_DIALOG_ADMINOWEN, GetDlgItem(IDD_DIALOG_ADMINOWEN));
+		dlg_adminowner.SetParent(&m_tabctrl);
+		dlg_adminowner.MoveWindow(&rc);
+		dlg_adminowner.ShowWindow(true);
 
 		dlg_admininfo.Create(IDD_DIALOG_ADMININFO, GetDlgItem(IDD_DIALOG_ADMININFO));
 		dlg_admininfo.SetParent(&m_tabctrl);
 		dlg_admininfo.MoveWindow(&rc);
-		dlg_admininfo.ShowWindow(true);
+		dlg_admininfo.ShowWindow(false);
+		dlg_admininfo.SetAdmin_(&aduser);
 
 		dlg_admingluser.Create(IDD_DIALOG_ADMINGLUSER, GetDlgItem(IDD_DIALOG_ADMINGLUSER));
 		dlg_admingluser.SetParent(&m_tabctrl);
@@ -156,24 +164,60 @@ void CDlgUser::OnTcnSelchangeTab1(NMHDR *pNMHDR, LRESULT *pResult)
 
 	if (userlogin.GetPer() == 1)
 	{
+
+		if (updateinfo == true)
+		{
+			dlg_sickinfo.SetInfo((CUser*)&aduser);
+			updateinfo = false;
+		}
+
+		if (updatesick == true)
+		{
+			dlg_adminglsick.SetSickInfo((CUser*)&aduser);
+			updatesick = false;
+		}
 		if (nNewSel == 0)
 		{
-			dlg_admininfo.ShowWindow(true);
+			dlg_adminowner.ShowWindow(true);
 			dlg_admingluser.ShowWindow(false);
+			dlg_admininfo.ShowWindow(false);
+			dlg_sickinfo.ShowWindow(false);
 			dlg_adminglsick.ShowWindow(false);
 		}
 
 		if (nNewSel == 1)
 		{
-			dlg_admininfo.ShowWindow(false);
+			dlg_adminowner.ShowWindow(false);
 			dlg_admingluser.ShowWindow(true);
+			dlg_admininfo.ShowWindow(false);
+			dlg_sickinfo.ShowWindow(false);
 			dlg_adminglsick.ShowWindow(false);
 		}
 
 		if (nNewSel == 2)
 		{
-			dlg_admininfo.ShowWindow(false);
+			dlg_adminowner.ShowWindow(false);
 			dlg_admingluser.ShowWindow(false);
+			dlg_admininfo.ShowWindow(true);
+			dlg_sickinfo.ShowWindow(false);
+			dlg_adminglsick.ShowWindow(false);
+		}
+
+		if (nNewSel == 3)
+		{
+			dlg_adminowner.ShowWindow(false);
+			dlg_admingluser.ShowWindow(false);
+			dlg_admininfo.ShowWindow(false);
+			dlg_sickinfo.ShowWindow(true);
+			dlg_adminglsick.ShowWindow(false);
+		}
+
+		if (nNewSel == 4)
+		{
+			dlg_adminowner.ShowWindow(false);
+			dlg_admingluser.ShowWindow(false);
+			dlg_admininfo.ShowWindow(false);
+			dlg_sickinfo.ShowWindow(false);
 			dlg_adminglsick.ShowWindow(true);
 		}
 	}

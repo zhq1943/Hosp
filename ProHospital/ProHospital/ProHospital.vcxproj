@@ -106,6 +106,8 @@
     <ClInclude Include="DlgAdminGLSick.h" />
     <ClInclude Include="DlgAdminGLUser.h" />
     <ClInclude Include="DlgAdminInfo.h" />
+    <ClInclude Include="DlgAdminOwner.h" />
+    <ClInclude Include="DlgChangeMIMA.h" />
     <ClInclude Include="DlgSickinfo.h" />
     <ClInclude Include="DlgUser.h" />
     <ClInclude Include="CUser.h" />
@@ -121,6 +123,8 @@
     <ClCompile Include="DlgAdminGLSick.cpp" />
     <ClCompile Include="DlgAdminGLUser.cpp" />
     <ClCompile Include="DlgAdminInfo.cpp" />
+    <ClCompile Include="DlgAdminOwner.cpp" />
+    <ClCompile Include="DlgChangeMIMA.cpp" />
     <ClCompile Include="DlgSickinfo.cpp" />
     <ClCompile Include="DlgUser.cpp" />
     <ClCompile Include="CUser.cpp" />

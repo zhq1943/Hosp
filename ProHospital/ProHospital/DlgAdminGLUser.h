@@ -1,8 +1,8 @@
 #pragma once
 #include "afxcmn.h"
 #include "CUser.h"
-
-
+#include "NormalUser.h"
+#include "DlgChangeMIMA.h"
 // CDlgAdminGLUser dialog
 
 class CDlgAdminGLUser : public CDialog
@@ -28,4 +28,10 @@ public:
 	afx_msg void OnNMDblclkListUser(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnNMRClickListUser(NMHDR *pNMHDR, LRESULT *pResult);
 	CMenu cpop_menu;
+	afx_msg void On32771();
+	CString  sel_user;
+	CNormalUser dlg_noruser;
+	CDlgChangeMIMA dlg_mima;
+
+	afx_msg void On32772();
 };

@@ -5,6 +5,7 @@
 #include "DlgAdminInfo.h"
 #include "DlgAdminGLSick.h"
 #include "DlgAdminGLUser.h"
+#include "DlgAdminOwner.h"
 #include "afxcmn.h"
 // CDlgUser dialog
 
@@ -35,6 +36,7 @@ private:
 	CDlgAdminInfo dlg_admininfo;
 	CDlgAdminGLUser dlg_admingluser;
 	CDlgAdminGLSick dlg_adminglsick;
+	CDlgAdminOwner dlg_adminowner;
 	vector<UserLoginfo> alluser;
 	
 public:

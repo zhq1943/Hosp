@@ -45,6 +45,8 @@ void CNormalUser::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CNormalUser, CDialog)
 	ON_BN_CLICKED(IDC_BUTTON_ADMODIUSERINFO, &CNormalUser::OnBnClickedButtonAdmodiuserinfo)
+	ON_BN_CLICKED(IDC_BUTTON_INFOOK, &CNormalUser::OnBnClickedButtonInfook)
+	ON_WM_DESTROY()
 END_MESSAGE_MAP()
 
 BOOL CNormalUser::OnInitDialog()
@@ -82,4 +84,19 @@ void CNormalUser::OnBnClickedButtonAdmodiuserinfo()
 void CNormalUser::SetModvis()
 {
 	GetDlgItem(IDC_BUTTON_ADMODIUSERINFO)->ShowWindow(TRUE);
+	GetDlgItem(IDC_BUTTON_INFOOK)->ShowWindow(TRUE);
+
+}
+
+
+void CNormalUser::OnBnClickedButtonInfook()
+{
+	// TODO: Add your control notification handler code here
+	OnOK();
+    DestroyWindow();
+}
+void CNormalUser::OnDestroy()
+{
+	CDialog::OnDestroy();
+	//delete this;
 }
