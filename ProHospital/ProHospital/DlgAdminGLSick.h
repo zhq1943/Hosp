@@ -20,13 +20,19 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 public:
-	CString m_username;
-	CString m_name;
-	CComboBox m_time;
+
 	afx_msg void OnBnClickedButtonModify();
 	afx_msg void OnBnClickedButtonCreate();
 	afx_msg void OnBnClickedButtonPer();
 	afx_msg void OnBnClickedButtonNext();
 	void SetSickInfo(CUser* );
-	CString m_sickrec;
+	AdminUser* aduser;
+	CString m_uname_;
+	CString m_urname;
+	CComboBox m_combo_time;
+	CString m_sickrecord;
+
+	int ind;
+	map<wstring, wstring> all_record;
+	void GetRecordbyTime(wstring ti_);
 };
