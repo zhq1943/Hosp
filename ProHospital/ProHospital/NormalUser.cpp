@@ -79,6 +79,29 @@ void CNormalUser::SetInfo(NormalUser& user_)
 void CNormalUser::OnBnClickedButtonAdmodiuserinfo()
 {
 	// TODO: Add your control notification handler code here
+	UpdateData();
+
+	UserInfoStru str_;
+
+	 str_.name = m_name;
+	 str_.uname = m_username;
+	 str_.sex = m_sex;
+	 str_.birthday = m_birthday;
+	 str_.birthplace = m_hometown;
+	 str_.warkplace = m_warkplace;
+	 str_.liveplace = m_liveplace;
+	str_.marrys = m_ifmarry;
+
+	AdminUser ad;
+	bool res = ad.UpdateNorUser(str_);
+	if (res)
+	{
+		AfxMessageBox(L"修改成功");
+	}else
+	{
+		AfxMessageBox(L"修改失败");
+	}
+
 }
 
 void CNormalUser::SetModvis()

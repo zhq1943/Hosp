@@ -42,6 +42,7 @@ BEGIN_MESSAGE_MAP(CDlgAdminGLSick, CDialog)
 	ON_BN_CLICKED(IDD_BUTTON_CREATE, &CDlgAdminGLSick::OnBnClickedButtonCreate)
 	ON_BN_CLICKED(IDC_BUTTON_PER, &CDlgAdminGLSick::OnBnClickedButtonPer)
 	ON_BN_CLICKED(IDC_BUTTON_NEXT, &CDlgAdminGLSick::OnBnClickedButtonNext)
+	ON_BN_CLICKED(IDC_BUTTON_DELREC, &CDlgAdminGLSick::OnBnClickedButtonDelrec)
 END_MESSAGE_MAP()
 
 
@@ -117,22 +118,19 @@ void CDlgAdminGLSick::OnBnClickedButtonNext()
 void CDlgAdminGLSick::SetSickInfo( CUser* user_)
 {
 	NormalUser* user = NULL;
-	if (user_->GetPer() == 1)
-	{
-		GetDlgItem(IDD_BUTTON_MODIFY)->ShowWindow(TRUE);
-		GetDlgItem(IDD_BUTTON_CREATE)->ShowWindow(TRUE);
+		
 		 aduser = dynamic_cast<AdminUser*>(user_);
 		if (aduser)
 		{
 			user = &(aduser->cur_nuser);
+			GetDlgItem(IDD_BUTTON_MODIFY)->ShowWindow(TRUE);
+			GetDlgItem(IDD_BUTTON_CREATE)->ShowWindow(TRUE);
+			GetDlgItem(IDC_BUTTON_DELREC)->ShowWindow(TRUE);
+		}else
+		{
+			user = dynamic_cast<NormalUser*>(user_);
 		}
 		
-	}
-
-	if (user_->GetPer() == 0)
-	{
-		user = dynamic_cast<NormalUser*>(user_);
-	}
 
 	if (user)
 	{
@@ -143,37 +141,34 @@ void CDlgAdminGLSick::SetSickInfo( CUser* user_)
 		map<wstring , wstring> all_rec;
 		user->GetMedRecdVector(all_rec);
 		user->GetMedRecdVector(all_record);
-		for (map<wstring, wstring>::iterator itor = all_rec.begin();
-			itor != all_rec.end();
+		
+		wstring time_;
+		for (map<wstring, wstring>::iterator itor = all_record.begin();
+			itor != all_record.end();
 			itor++)
 		{
-		//wstring rec = (*itor).second;
-			wstring time_ = (*itor).first;
-			//m_sickrec = rec.c_str();
+		    time_ = (*itor).first;
 			m_combo_time.AddString(time_.c_str());
 			m_sickrecord = (*itor).second.c_str();
 		}
 
+		UpdateData(FALSE);
 		if (m_combo_time.GetCount() != 0)
 		{
 
 			m_combo_time.SetCurSel(0);
-			m_combo_time.GetItemData(1);
-			//CString time_g = *((CString*)(m_combo_time.GetItemData(1)));
-			//map<wstring, wstring>::iterator itor_ = all_rec.find(wstring(time_g));
-			//if (itor_ != all_rec.end())
+			map<wstring, wstring>::iterator itor_ = all_record.find(wstring(time_));
+			if (itor_ != all_record.end())
 			{
-			//	wstring rec_str = (*itor_).second;
-			//	m_sickrecord = rec_str.c_str();
+				wstring rec_str = (*itor_).second;
+				m_sickrecord = rec_str.c_str();
 			}
 		}
-		
+
 		UpdateData(FALSE);
 		
 	}
 
-	
-	
 }
 void CDlgAdminGLSick::GetRecordbyTime( wstring ti_ )
 {
@@ -184,4 +179,18 @@ void CDlgAdminGLSick::GetRecordbyTime( wstring ti_ )
 		m_sickrecord = rec_str.c_str();
 	}
 	UpdateData(FALSE);
+}
+
+BOOL CDlgAdminGLSick::OnInitDialog()
+{
+	CDialog::OnInitDialog();
+	
+
+	return TRUE;
+}
+
+
+void CDlgAdminGLSick::OnBnClickedButtonDelrec()
+{
+	// TODO: Add your control notification handler code here
 }

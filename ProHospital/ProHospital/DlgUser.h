@@ -43,4 +43,5 @@ public:
 	CTabCtrl m_tabctrl;
 	afx_msg void OnTcnSelchangeTab1(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnBnClickedOk();
+	afx_msg void OnBnClickedCancel();
 };

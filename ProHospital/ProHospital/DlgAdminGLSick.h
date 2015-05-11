@@ -35,4 +35,7 @@ public:
 	int ind;
 	map<wstring, wstring> all_record;
 	void GetRecordbyTime(wstring ti_);
+
+	virtual BOOL OnInitDialog();
+	afx_msg void OnBnClickedButtonDelrec();
 };

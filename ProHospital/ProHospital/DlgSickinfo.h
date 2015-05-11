@@ -37,4 +37,9 @@ public:
 
 	void SetInfo(CUser*);
 	CString m_vincheck;
+	afx_msg void OnBnClickedButtonModisickinfo();
+	void SetModify_();
+
+private:
+	wstring user_name;
 };

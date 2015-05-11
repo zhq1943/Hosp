@@ -48,6 +48,7 @@ void CDlgAdminInfo::OnBnClickedButtonSear()
 {
 	// TODO: Add your control notification handler code here
 	UpdateData();
+	m_lc_list.DeleteAllItems();
 	CString str_;
 	m_cb_stype.GetWindowTextW(str_);
 	AdminUser admin;
@@ -91,7 +92,10 @@ void CDlgAdminInfo::OnBnClickedButtonSear()
 		}
 	}
 	
-	
+	if (m_lc_list.GetItemCount() == 0)
+	{
+		AfxMessageBox(L"未找到！");
+	}
 }
 
 BOOL CDlgAdminInfo::OnInitDialog()
@@ -119,15 +123,23 @@ void CDlgAdminInfo::OnBnClickedButtonDcdata()
 	// TODO: Add your control notification handler code here
 	if (sel_user.IsEmpty())
 	{
+		AfxMessageBox(L"选中要操作的用户");
 		return;
 	}
 
 
 	admin_->cur_nuser.SetUserName_(wstring(sel_user));
-	admin_->cur_nuser.InitUserInfo();
+	bool res = admin_->cur_nuser.InitUserInfo();
+	if (res)
+	{
+		updateinfo = true;
+		updatesick = true;
+	    AfxMessageBox(L"导出成功");
+	}else
+	{
+		AfxMessageBox(L"导出失败");
+	}
 
-	updateinfo = true;
-	updatesick = true;
 // 	HWND hw = ::GetDlgItem(this->GetParent()->GetSafeHwnd(), IDD_DIALOG_SICKINFO);
 // 	CWnd* pwnd = CWnd::FromHandle(hw);
 // 	CDlgSickinfo* psickinfo = dynamic_cast<CDlgSickinfo*>(pwnd);

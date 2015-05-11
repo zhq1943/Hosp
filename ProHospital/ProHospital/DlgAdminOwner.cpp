@@ -69,6 +69,16 @@ void CDlgAdminOwner::OnBnClickedCancel()
 {
 	// TODO: Add your control notification handler code here
 	//CDialog::OnCancel(); info
+	NormalUser user;
+	user.SetUserName_(cuser_->GetUserName_());
+	user.InitUserInfo();
+
+	
+    nor_dlg.Create(IDD_DIALOG_USERSET, GetDlgItem(IDD_DIALOG_USERSET));
+	nor_dlg.ModifyStyle(0,WS_CAPTION);
+	nor_dlg.SetInfo(user);
+	nor_dlg.SetModvis();
+	nor_dlg.ShowWindow(TRUE);
 }
 
 BOOL CDlgAdminOwner::OnInitDialog()

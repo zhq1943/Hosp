@@ -1,6 +1,6 @@
 #pragma once
 #include "CUser.h"
-
+#include "NormalUser.h"
 // CDlgAdminOwner dialog
 
 class CDlgAdminOwner : public CDialog
@@ -26,6 +26,7 @@ public:
 private:
 
 	AdminUser* cuser_;
+	CNormalUser nor_dlg;
 
 public:
 	void SetAdUser(AdminUser* u)

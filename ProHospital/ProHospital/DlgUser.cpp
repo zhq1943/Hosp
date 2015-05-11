@@ -32,6 +32,7 @@ void CDlgUser::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CDlgUser, CDialog)
 	ON_NOTIFY(TCN_SELCHANGE, IDC_TAB1, &CDlgUser::OnTcnSelchangeTab1)
 	ON_BN_CLICKED(IDOK, &CDlgUser::OnBnClickedOk)
+	ON_BN_CLICKED(IDCANCEL, &CDlgUser::OnBnClickedCancel)
 END_MESSAGE_MAP()
 
 BOOL CDlgUser::OnInitDialog()
@@ -81,6 +82,7 @@ BOOL CDlgUser::OnInitDialog()
 		dlg_sickinfo.MoveWindow(&rc);
 		dlg_sickinfo.ShowWindow(false);
 		dlg_sickinfo.SetInfo((CUser*)&aduser);
+		dlg_sickinfo.SetModify_();
 
 		dlg_adminglsick.Create(IDD_DIALOG_ADMINGLSICK, GetDlgItem(IDD_DIALOG_ADMINGLSICK));
 		dlg_adminglsick.SetParent(&m_tabctrl);
@@ -230,4 +232,11 @@ void CDlgUser::OnBnClickedOk()
 {
 	// TODO: Add your control notification handler code here
 	CDialog::OnOK();
+}
+
+
+void CDlgUser::OnBnClickedCancel()
+{
+	// TODO: Add your control notification handler code here
+	CDialog::OnCancel();
 }

@@ -46,7 +46,7 @@ BOOL CDlgAdminGLUser::OnInitDialog()
 	m_usergl.InsertColumn(1, L"密码", LVCFMT_LEFT, wid/3);
 	m_usergl.InsertColumn(2, L"最后登录时间", LVCFMT_LEFT, wid/3);
 
-	cpop_menu.LoadMenuW(IDR_MENU1);
+	//cpop_menu.LoadMenuW(IDR_MENU1);
 	return true;
 }
 

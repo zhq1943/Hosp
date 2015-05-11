@@ -53,21 +53,18 @@ void CDlgSickinfo::DoDataExchange(CDataExchange* pDX)
 
 
 BEGIN_MESSAGE_MAP(CDlgSickinfo, CDialog)
+	ON_BN_CLICKED(IDC_BUTTON_MODISICKINFO, &CDlgSickinfo::OnBnClickedButtonModisickinfo)
 END_MESSAGE_MAP()
 
 void CDlgSickinfo::SetInfo( CUser* user_)
 {
 	NormalUser* nor_user = NULL;
-	if (user_->GetPer() == 1)
-	{
-		AdminUser* adu = dynamic_cast<AdminUser*>(user_);
-		if (adu)
-		{
-			nor_user = &(adu->cur_nuser);
-		}
-	}
 
-	if (user_->GetPer() == 0)
+	AdminUser* adu = dynamic_cast<AdminUser*>(user_);
+	if (adu)
+	{
+		nor_user = &(adu->cur_nuser);
+	}else
 	{
 		nor_user = dynamic_cast<NormalUser*>(user_);
 	}
@@ -77,7 +74,7 @@ void CDlgSickinfo::SetInfo( CUser* user_)
 
 		UserSickInfo sick;
 		nor_user->GetSickInfo(sick);
-
+		user_name = sick.uname;
 		m_name = sick.name.c_str();
 		m_timein = sick.timein.c_str();
 		m_timeout = sick.timewrite.c_str();
@@ -97,3 +94,41 @@ void CDlgSickinfo::SetInfo( CUser* user_)
 
 
 // CDlgSickinfo message handlers
+
+
+void CDlgSickinfo::OnBnClickedButtonModisickinfo()
+{
+	// TODO: Add your control notification handler code here
+	UpdateData();
+
+	UserSickInfo sick;
+	sick.name = m_name ;
+	sick.timein  = m_timein;
+	sick.timewrite  = m_timeout;
+	sick.patkb  = m_patkb;
+	sick.badid  = m_badid;
+	sick.hosid   = m_hosid;
+	sick.pasid  = m_pasid;
+	sick.ttalk  = m_ttalk;
+	sick.mtalk  = m_mtalk;
+	sick.nsick  = m_nsick;
+	sick.incheck  = m_vincheck;
+	sick.outcheck  = m_outcheck;
+	sick.uname = user_name;
+	sick.ntalk = L"未知";
+
+	  AdminUser ad;
+	  bool res = ad.UpdateNorSick(sick);
+	  if (res)
+	  {
+		  AfxMessageBox(L"添加成功！");
+	  }else
+	  {
+		  AfxMessageBox(L"添加失败！");
+	  }
+}
+
+void CDlgSickinfo::SetModify_()
+{
+	GetDlgItem(IDC_BUTTON_MODISICKINFO)->ShowWindow(TRUE);
+}

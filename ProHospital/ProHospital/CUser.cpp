@@ -246,6 +246,8 @@ void NormalUser::GetSickInfo( UserSickInfo& stru_)
 	stru_.timein = timein;
 	stru_.timewrite = timewrite;
 	stru_.ttalk = ttalk;
+	stru_.uname = uname;
+	stru_.ntalk = ntalk;
 }
 
 
@@ -613,7 +615,7 @@ bool AdminUser::UpdateNorSick( UserSickInfo& stru_ )
 		return false;
 	}
 
-	wstring search_med = wstring(L"SELECT * FROM UserSick");
+	wstring search_med = wstring(L"SELECT * FROM UserMed");
 
 	res = con.ExecuteSql(search_med);
 	if (!res)
