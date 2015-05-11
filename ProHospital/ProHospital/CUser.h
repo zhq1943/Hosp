@@ -163,6 +163,7 @@ private:
 
 public:
 	void  GetUserLoginInfo(vector<UserLoginfo>& all);
+	void  GetSelfLoginInfo(UserLoginfo& u);
 	bool  UpdateNorUser(UserInfoStru& stru_);
 	bool  UpdateNorLogin(UserLoginfo& stru_);
 	bool  UpdateNorSick(UserSickInfo& stru_);

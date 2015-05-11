@@ -1,5 +1,5 @@
 #pragma once
-
+#include "CUser.h"
 
 // CDlgAdminOwner dialog
 
@@ -21,4 +21,15 @@ protected:
 public:
 	afx_msg void OnBnClickedOk();
 	afx_msg void OnBnClickedButtonCreateu();
+	afx_msg void OnBnClickedCancel();
+	virtual BOOL OnInitDialog();
+private:
+
+	AdminUser* cuser_;
+
+public:
+	void SetAdUser(AdminUser* u)
+	{
+		cuser_ = u;
+	}
 };

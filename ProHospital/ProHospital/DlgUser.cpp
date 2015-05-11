@@ -61,6 +61,7 @@ BOOL CDlgUser::OnInitDialog()
 		dlg_adminowner.SetParent(&m_tabctrl);
 		dlg_adminowner.MoveWindow(&rc);
 		dlg_adminowner.ShowWindow(true);
+		dlg_adminowner.SetAdUser(&aduser);
 
 		dlg_admininfo.Create(IDD_DIALOG_ADMININFO, GetDlgItem(IDD_DIALOG_ADMININFO));
 		dlg_admininfo.SetParent(&m_tabctrl);

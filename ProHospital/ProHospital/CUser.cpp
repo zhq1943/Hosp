@@ -571,13 +571,14 @@ bool AdminUser::UpdateNorLogin( UserLoginfo& stru_ )
 		UserLoginfo linfo;
 		while(!con.Eof())
 		{
-
+			
 			wstring username = con.GetValueStr(wstring(L"User"));
 			if (stru_.uname == username)
 			{
 				con.SetValueStr(wstring(L"Password"), stru_.password);
 				con.SetValueInt(wstring(L"Promission"), stru_.per_);
 				con.SetValueStr(wstring(L"Lasttime"), stru_.lasttime);
+				con.SetValueStr(wstring(L"UserName"), stru_.name);
 				con.UpdateOk();
 				break;
 			}
@@ -592,6 +593,7 @@ bool AdminUser::UpdateNorLogin( UserLoginfo& stru_ )
 			con.SetValueInt(wstring(L"Promission"), stru_.per_);
 			con.SetValueStr(wstring(L"Lasttime"), stru_.lasttime);
 			con.SetValueStr(wstring(L"Password"), stru_.password);
+			con.SetValueStr(wstring(L"UserName"), stru_.name);
 			con.UpdateOk();
 		}
 	}catch(_com_error e)
@@ -732,4 +734,22 @@ bool AdminUser::UpdateUserRecord( UserRecordInfo& stru_ )
 	{
 		return false;
 	}
+}
+
+void AdminUser::GetSelfLoginInfo( UserLoginfo& u )
+{
+	vector<UserLoginfo> all;
+	GetUserLoginInfo(all);
+	for (vector<UserLoginfo>::iterator itor = all.begin();
+		 itor != all.end();
+		 itor++)
+	{
+		UserLoginfo uinfo = *itor;
+		if (uinfo.uname == name)
+		{
+			u = uinfo;
+			break;
+		}
+	}
+
 }

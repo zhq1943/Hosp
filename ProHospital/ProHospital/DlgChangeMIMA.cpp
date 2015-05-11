@@ -17,7 +17,7 @@ CDlgChangeMIMA::CDlgChangeMIMA(CWnd* pParent /*=NULL*/)
 	, m_mima2(_T(""))
 	, m_username(_T(""))
 {
-
+	editsty = FALSE;
 }
 
 CDlgChangeMIMA::~CDlgChangeMIMA()
@@ -46,10 +46,26 @@ void CDlgChangeMIMA::OnBnClickedOk()
 {
 	// TODO: Add your control notification handler code here
 	//CDialog::OnOK();
-	UpdateData();
-	m_lginfo.password = m_mima1;
-	AdminUser aduser;
-	aduser.UpdateNorLogin(m_lginfo);
+	if (editsty)
+	{
+		UpdateData();
+		CTime time = CTime::GetCurrentTime();
+		CString name_t = time.Format("%Y%m%d%H%M%S");
+		m_lginfo.name = L"UNKNOW";
+		m_lginfo.uname = m_username;
+		m_lginfo.lasttime = name_t;
+		m_lginfo.password = m_mima1;
+		m_lginfo.per_ = 0;
+		AdminUser aduser;
+		aduser.UpdateNorLogin(m_lginfo);
+	}else
+	{
+		UpdateData();
+		m_lginfo.password = m_mima1;
+		AdminUser aduser;
+		aduser.UpdateNorLogin(m_lginfo);
+	}
+	
 }
 
 
@@ -67,19 +83,26 @@ void CDlgChangeMIMA::SetUserLgInfo( UserLoginfo& u )
 BOOL CDlgChangeMIMA::OnInitDialog()
 {
 	CDialog::OnInitDialog();
-	m_username = m_lginfo.uname.c_str();
-	UpdateData(FALSE);
+	if (editsty)
+	{
 
-	
+	}else
+	{
+		m_username = m_lginfo.uname.c_str();
+		UpdateData(FALSE);   
+	}
+
+	GetDlgItem(IDC_EDIT2)->EnableWindow(editsty);
 	return TRUE;
 }
 
 void CDlgChangeMIMA::AddNewUser()
 {
-	GetDlgItem(IDC_EDIT2)->EnableWindow(TRUE);
+	//GetDlgItem(IDC_EDIT2)->EnableWindow(TRUE);
+	editsty = TRUE;
 }
 
 void CDlgChangeMIMA::ModifyMima()
 {
-	GetDlgItem(IDC_EDIT2)->EnableWindow(FALSE);
+	//GetDlgItem(IDC_EDIT2)->EnableWindow(FALSE);
 }
