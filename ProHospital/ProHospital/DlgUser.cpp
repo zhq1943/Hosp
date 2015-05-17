@@ -54,21 +54,22 @@ BOOL CDlgUser::OnInitDialog()
 		int index = m_tabctrl.GetItemCount();
 		m_tabctrl.InsertItem(index, L"管理员信息");
 		m_tabctrl.InsertItem(index+1, L"用户管理");
-		m_tabctrl.InsertItem(index+2, L"搜索");
-		m_tabctrl.InsertItem(index+3, L"病历管理");
-		m_tabctrl.InsertItem(index+4, L"入院记录管理");
+		//m_tabctrl.InsertItem(index+2, L"搜索");
+		m_tabctrl.InsertItem(index+2, L"病历管理");
+		m_tabctrl.InsertItem(index+3, L"入院记录管理");
 
 		dlg_adminowner.Create(IDD_DIALOG_ADMINOWEN, GetDlgItem(IDD_DIALOG_ADMINOWEN));
 		dlg_adminowner.SetParent(&m_tabctrl);
 		dlg_adminowner.MoveWindow(&rc);
 		dlg_adminowner.ShowWindow(true);
 		dlg_adminowner.SetAdUser(&aduser);
+		dlg_adminowner.SetInfo();
 
-		dlg_admininfo.Create(IDD_DIALOG_ADMININFO, GetDlgItem(IDD_DIALOG_ADMININFO));
-		dlg_admininfo.SetParent(&m_tabctrl);
-		dlg_admininfo.MoveWindow(&rc);
-		dlg_admininfo.ShowWindow(false);
-		dlg_admininfo.SetAdmin_(&aduser);
+// 		dlg_admininfo.Create(IDD_DIALOG_ADMININFO, GetDlgItem(IDD_DIALOG_ADMININFO));
+// 		dlg_admininfo.SetParent(&m_tabctrl);
+// 		dlg_admininfo.MoveWindow(&rc);
+// 		dlg_admininfo.ShowWindow(false);
+// 		dlg_admininfo.SetAdmin_(&aduser);
 
 		dlg_admingluser.Create(IDD_DIALOG_ADMINGLUSER, GetDlgItem(IDD_DIALOG_ADMINGLUSER));
 		dlg_admingluser.SetParent(&m_tabctrl);
@@ -76,6 +77,7 @@ BOOL CDlgUser::OnInitDialog()
 		dlg_admingluser.ShowWindow(false);
 		aduser.GetUserLoginInfo(alluser);
 		dlg_admingluser.SetInfo(alluser);
+		dlg_admingluser.SetAdmin_(&aduser);
 
 		dlg_sickinfo.Create(IDD_DIALOG_SICKINFO, GetDlgItem(IDD_DIALOG_SICKINFO));
 		dlg_sickinfo.SetParent(&m_tabctrl);
@@ -170,12 +172,14 @@ void CDlgUser::OnTcnSelchangeTab1(NMHDR *pNMHDR, LRESULT *pResult)
 
 		if (updateinfo == true)
 		{
+			aduser.cur_nuser.InitUserInfo();
 			dlg_sickinfo.SetInfo((CUser*)&aduser);
 			updateinfo = false;
 		}
 
 		if (updatesick == true)
 		{
+			aduser.cur_nuser.InitUserInfo();
 			dlg_adminglsick.SetSickInfo((CUser*)&aduser);
 			updatesick = false;
 		}
@@ -183,7 +187,7 @@ void CDlgUser::OnTcnSelchangeTab1(NMHDR *pNMHDR, LRESULT *pResult)
 		{
 			dlg_adminowner.ShowWindow(true);
 			dlg_admingluser.ShowWindow(false);
-			dlg_admininfo.ShowWindow(false);
+			//dlg_admininfo.ShowWindow(false);
 			dlg_sickinfo.ShowWindow(false);
 			dlg_adminglsick.ShowWindow(false);
 		}
@@ -192,7 +196,7 @@ void CDlgUser::OnTcnSelchangeTab1(NMHDR *pNMHDR, LRESULT *pResult)
 		{
 			dlg_adminowner.ShowWindow(false);
 			dlg_admingluser.ShowWindow(true);
-			dlg_admininfo.ShowWindow(false);
+			//dlg_admininfo.ShowWindow(false);
 			dlg_sickinfo.ShowWindow(false);
 			dlg_adminglsick.ShowWindow(false);
 		}
@@ -201,8 +205,8 @@ void CDlgUser::OnTcnSelchangeTab1(NMHDR *pNMHDR, LRESULT *pResult)
 		{
 			dlg_adminowner.ShowWindow(false);
 			dlg_admingluser.ShowWindow(false);
-			dlg_admininfo.ShowWindow(true);
-			dlg_sickinfo.ShowWindow(false);
+			//dlg_admininfo.ShowWindow(true);
+			dlg_sickinfo.ShowWindow(true);
 			dlg_adminglsick.ShowWindow(false);
 		}
 
@@ -210,19 +214,19 @@ void CDlgUser::OnTcnSelchangeTab1(NMHDR *pNMHDR, LRESULT *pResult)
 		{
 			dlg_adminowner.ShowWindow(false);
 			dlg_admingluser.ShowWindow(false);
-			dlg_admininfo.ShowWindow(false);
-			dlg_sickinfo.ShowWindow(true);
-			dlg_adminglsick.ShowWindow(false);
-		}
-
-		if (nNewSel == 4)
-		{
-			dlg_adminowner.ShowWindow(false);
-			dlg_admingluser.ShowWindow(false);
-			dlg_admininfo.ShowWindow(false);
+			//dlg_admininfo.ShowWindow(false);
 			dlg_sickinfo.ShowWindow(false);
 			dlg_adminglsick.ShowWindow(true);
 		}
+
+// 		if (nNewSel == 4)
+// 		{
+// 			dlg_adminowner.ShowWindow(false);
+// 			dlg_admingluser.ShowWindow(false);
+// 			dlg_admininfo.ShowWindow(false);
+// 			dlg_sickinfo.ShowWindow(false);
+// 			dlg_adminglsick.ShowWindow(true);
+// 		}
 	}
 	
 }
@@ -232,9 +236,13 @@ void CDlgUser::OnBnClickedOk()
 {
 	// TODO: Add your control notification handler code here
 	//CDialog::OnOK();
-	dlg_adminglsick.RestData();
-	dlg_admingluser.RestData();
-	dlg_admininfo.RestData();
+	if (userlogin.GetPer() == 1)
+	{
+		dlg_adminglsick.RestData();
+		dlg_admingluser.RestData();
+	}
+
+	//dlg_admininfo.RestData();
 
 }
 

@@ -84,6 +84,41 @@ void CDlgAdminOwner::OnBnClickedCancel()
 BOOL CDlgAdminOwner::OnInitDialog()
 {
 	CDialog::OnInitDialog();
-
+	
+	
 	return TRUE;
+}
+
+void CDlgAdminOwner::SetInfo()
+{
+	UserLoginfo ulog;
+	cuser_->GetSelfLoginInfo(ulog);
+	wstring lgtime_str = L"上次登录时间: ";
+	lgtime_str += ulog.lasttime;
+	GetDlgItem(IDC_STATIC_ADLOGTIEM)->SetWindowTextW(lgtime_str.c_str());
+
+	CString usercount = L"注册用户数: ";
+	vector<UserLoginfo> allUser;
+	cuser_->GetUserLoginInfo(allUser);
+	int i = 0;
+	for (vector<UserLoginfo>::iterator itor = allUser.begin();
+		 itor != allUser.end();
+		 itor++)
+	{
+		UserLoginfo uinfo = *itor;
+		if (uinfo.per_ == 0)
+		{
+			i+= 1;
+		}
+	}
+	usercount.Format(L"注册用户数: %d", i);
+	GetDlgItem(IDC_STATIC_ALLUSERCOUNT)->SetWindowTextW(usercount);
+
+	UserLoginfo userlog;
+	cuser_->GetSelfLoginInfo(userlog);
+	CTime time = CTime::GetCurrentTime(); 
+	CString name_t = time.Format("%Y%m%d%H%M%S");//
+
+	userlog.lasttime = wstring(name_t);
+	cuser_->UpdateNorLogin(userlog);
 }

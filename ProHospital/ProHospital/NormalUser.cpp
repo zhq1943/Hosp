@@ -52,6 +52,7 @@ END_MESSAGE_MAP()
 BOOL CNormalUser::OnInitDialog()
 {
 	CDialog::OnInitDialog();
+
 	return TRUE;
 }
 
@@ -68,6 +69,15 @@ void CNormalUser::SetInfo(NormalUser& user_)
 	m_warkplace = str_.warkplace.c_str();
 	m_liveplace = str_.liveplace.c_str();
 	m_ifmarry = str_.marrys.c_str();
+
+	AdminUser aduser;
+	UserLoginfo userlog;
+	user_.GetLoginInfo(userlog);
+	CTime time = CTime::GetCurrentTime(); 
+	CString name_t = time.Format("%Y%m%d%H%M%S");//
+
+	userlog.lasttime = wstring(name_t);
+	aduser.UpdateNorLogin(userlog);
 
 	UpdateData(FALSE);
 }

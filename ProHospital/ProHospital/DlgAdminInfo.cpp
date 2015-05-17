@@ -8,8 +8,8 @@
 #include "DlgSickinfo.h"
 #include "DlgAdminGLSick.h"
 
-bool updateinfo = false;
-bool updatesick = false;
+// bool updateinfo = false;
+// bool updatesick = false;
 // CDlgAdminInfo dialog
 
 IMPLEMENT_DYNAMIC(CDlgAdminInfo, CDialog)
@@ -121,24 +121,24 @@ BOOL CDlgAdminInfo::OnInitDialog()
 void CDlgAdminInfo::OnBnClickedButtonDcdata()
 {
 	// TODO: Add your control notification handler code here
-	if (sel_user.IsEmpty())
-	{
-		AfxMessageBox(L"选中要操作的用户");
-		return;
-	}
-
-
-	admin_->cur_nuser.SetUserName_(wstring(sel_user));
-	bool res = admin_->cur_nuser.InitUserInfo();
-	if (res)
-	{
-		updateinfo = true;
-		updatesick = true;
-	    AfxMessageBox(L"导出成功");
-	}else
-	{
-		AfxMessageBox(L"导出失败");
-	}
+// 	if (sel_user.IsEmpty())
+// 	{
+// 		AfxMessageBox(L"选中要操作的用户");
+// 		return;
+// 	}
+// 
+// 
+// 	admin_->cur_nuser.SetUserName_(wstring(sel_user));
+// 	bool res = admin_->cur_nuser.InitUserInfo();
+// 	if (res)
+// 	{
+// 		updateinfo = true;
+// 		updatesick = true;
+// 	    AfxMessageBox(L"导出成功");
+// 	}else
+// 	{
+// 		AfxMessageBox(L"导出失败");
+// 	}
 
 // 	HWND hw = ::GetDlgItem(this->GetParent()->GetSafeHwnd(), IDD_DIALOG_SICKINFO);
 // 	CWnd* pwnd = CWnd::FromHandle(hw);

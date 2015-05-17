@@ -197,6 +197,7 @@ bool CUser::GetDatavector( wstring& tabel_, wstring& name, wstring& key, vector<
 	return false;
 }
 
+
 NormalUser::NormalUser()
 {
 
@@ -379,6 +380,7 @@ bool NormalUser::InitUserInfo()
 
 	try
 	{
+		hosrecord.clear();
 		while(!con.Eof())
 		{
 			wstring timestr = con.GetValueStr(wstring(L"Time"));
@@ -403,9 +405,11 @@ void NormalUser::GetLoginInfo( UserLoginfo& str_ )
 {
 	str_.lasttime = lastlgtime;
 	str_.password = paword;
+	str_.name = name;
 	str_.per_ = per;
 	str_.uname = uname;
 }
+
 
 
 
@@ -707,6 +711,7 @@ bool AdminUser::UpdateUserRecord( UserRecordInfo& stru_ )
 
 	try
 	{
+		bool modiok = false;
 		UserLoginfo linfo;
 		while(!con.Eof())
 		{
@@ -715,7 +720,8 @@ bool AdminUser::UpdateUserRecord( UserRecordInfo& stru_ )
 			wstring time_ = con.GetValueStr(wstring(L"time"));
 			if (stru_.user_ == username&&stru_.time_ == time_)
 			{
-				con.SetValueStr(wstring(L"time"), stru_.time_);
+				con.SetValueStr(wstring(L"Medrecord"), stru_.record);
+				modiok = true;
 				con.UpdateOk();
 				break;
 			}
@@ -723,7 +729,7 @@ bool AdminUser::UpdateUserRecord( UserRecordInfo& stru_ )
 			con.NextRecord();
 		}
 
-		if (con.Eof())
+		if (!modiok)
 		{
 			con.NewRecord();
 			con.SetValueStr(wstring(L"User"), stru_.user_);

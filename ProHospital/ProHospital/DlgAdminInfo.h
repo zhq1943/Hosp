@@ -43,5 +43,5 @@ public:
 	void RestData();
 };
 
-extern bool updatesick;
-extern bool updateinfo;
+// extern bool updatesick;
+// extern bool updateinfo;

@@ -86,12 +86,13 @@ void CDlgAdminGLSick::OnBnClickedButtonCreate()
 void CDlgAdminGLSick::OnBnClickedButtonPer()
 {
 	// TODO: Add your control notification handler code here
-	if (ind-1 < 0)
+	int index_ = m_combo_time.GetCurSel();
+	if (index_-1 < 0)
 	{
 		return;
 	}
-	ind -= 1;
-	m_combo_time.SetCurSel(ind);
+	index_ -= 1;
+	m_combo_time.SetCurSel(index_);
 
 
 	UpdateData(FALSE);
@@ -106,13 +107,14 @@ void CDlgAdminGLSick::OnBnClickedButtonPer()
 void CDlgAdminGLSick::OnBnClickedButtonNext()
 {
 	// TODO: Add your control notification handler code here
-	if (ind +1 > m_combo_time.GetCount() -1)
+	int index_ = m_combo_time.GetCurSel();
+	if (index_ +1 > m_combo_time.GetCount() -1)
 	{
 		return;
 	}
 
-	ind += 1;
-	m_combo_time.SetCurSel(ind);
+	index_ += 1;
+	m_combo_time.SetCurSel(index_);
 
 	UpdateData(FALSE);
 
@@ -224,8 +226,10 @@ void CDlgAdminGLSick::OnBnClickedButtonDelrec()
 void CDlgAdminGLSick::OnCbnSelchangeCombo1Timeglsick()
 {
 	// TODO: Add your control notification handler code here
+	int ind = m_combo_time.GetCurSel();
 	CString time_;
-	m_combo_time.GetWindowTextW(time_);
+	//m_combo_time.GetWindowTextW(time_);
+	m_combo_time.GetLBText(ind, time_);
 
 	GetRecordbyTime(wstring(time_));
 }
@@ -237,4 +241,5 @@ void CDlgAdminGLSick::RestData()
 	m_uname_ = L"";
 	m_urname = L"";
 	UpdateData(FALSE);
+
 }

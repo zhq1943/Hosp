@@ -40,4 +40,5 @@ public:
 
 	BOOL editsty;
 	
+	CString m_userrealname;
 };

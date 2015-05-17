@@ -150,6 +150,7 @@ public:
 		return uname;
 	}
 
+
 };
 
 class AdminUser:public CUser

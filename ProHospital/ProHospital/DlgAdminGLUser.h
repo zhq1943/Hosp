@@ -3,6 +3,7 @@
 #include "CUser.h"
 #include "NormalUser.h"
 #include "DlgChangeMIMA.h"
+#include "afxwin.h"
 // CDlgAdminGLUser dialog
 
 class CDlgAdminGLUser : public CDialog
@@ -35,5 +36,23 @@ public:
 
 	afx_msg void On32772();
 	afx_msg void OnBnClickedOk();
+	afx_msg void OnDelUser();
 	void RestData();
+	afx_msg void OnBnClickedButtonSearchuser();
+	CComboBox m_cb_stype;
+	CString m_ed_searstr;
+
+	void SetAdmin_(AdminUser* ad)
+	{
+		admin_ = ad;
+	}
+
+private:
+	vector<UserLoginfo> allinfo;
+	AdminUser* admin_;
+public:
+	afx_msg void OnNMClickListUser(NMHDR *pNMHDR, LRESULT *pResult);
+	afx_msg void OnBnClickedButton2();
 };
+extern bool updatesick;
+extern bool updateinfo;

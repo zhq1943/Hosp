@@ -33,4 +33,6 @@ public:
 	{
 		cuser_ = u;
 	}
+
+	void SetInfo();
 };
