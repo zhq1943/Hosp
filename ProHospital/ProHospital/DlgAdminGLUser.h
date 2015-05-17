@@ -34,4 +34,6 @@ public:
 	CDlgChangeMIMA dlg_mima;
 
 	afx_msg void On32772();
+	afx_msg void OnBnClickedOk();
+	void RestData();
 };

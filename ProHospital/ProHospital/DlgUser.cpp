@@ -231,7 +231,11 @@ void CDlgUser::OnTcnSelchangeTab1(NMHDR *pNMHDR, LRESULT *pResult)
 void CDlgUser::OnBnClickedOk()
 {
 	// TODO: Add your control notification handler code here
-	CDialog::OnOK();
+	//CDialog::OnOK();
+	dlg_adminglsick.RestData();
+	dlg_admingluser.RestData();
+	dlg_admininfo.RestData();
+
 }
 
 

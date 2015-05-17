@@ -72,7 +72,7 @@ public:
 		return per;
 	}
 
-	wstring GetUserName_()
+	virtual wstring GetUserName_()
 	{
 		return user_name;
 	}
@@ -145,6 +145,11 @@ public:
 		uname = name_;
 	}
 
+	virtual wstring GetUserName_()
+	{
+		return uname;
+	}
+
 };
 
 class AdminUser:public CUser
@@ -168,6 +173,10 @@ public:
 	bool  UpdateNorLogin(UserLoginfo& stru_);
 	bool  UpdateNorSick(UserSickInfo& stru_);
 	bool  UpdateUserRecord(UserRecordInfo& stru_);
+	bool  DelRecByNT(wstring& name_, wstring& time_);
+	bool  DelUserInfo(wstring& uname);
+	bool  DelUser(wstring& uname);
+	bool  DelUserSick(wstring &uname);
 	wstring GetAdName()
 	{
 		return name;
@@ -178,5 +187,11 @@ public:
 		return per;
 	}
 
+	inline bool Connect_datebase();
+
+	virtual wstring GetUserName_()
+	{
+		return name;
+	}
 
 };

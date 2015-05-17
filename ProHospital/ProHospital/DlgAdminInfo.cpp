@@ -170,3 +170,11 @@ void CDlgAdminInfo::OnNMClickListSearres(NMHDR *pNMHDR, LRESULT *pResult)
     sel_user =  m_lc_list.GetItemText(pNMItemActivate->iItem, 0);
 
 }
+
+void CDlgAdminInfo::RestData()
+{
+	m_lc_list.DeleteAllItems();
+	m_ed_sstr = L"";
+	//m_cb_stype.ResetContent();
+	UpdateData(FALSE);
+}

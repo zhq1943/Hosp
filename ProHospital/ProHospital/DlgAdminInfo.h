@@ -40,6 +40,7 @@ private:
 public:
 	afx_msg void OnBnClickedButtonDcdata();
 	afx_msg void OnNMClickListSearres(NMHDR *pNMHDR, LRESULT *pResult);
+	void RestData();
 };
 
 extern bool updatesick;

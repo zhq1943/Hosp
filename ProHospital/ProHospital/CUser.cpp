@@ -755,3 +755,232 @@ void AdminUser::GetSelfLoginInfo( UserLoginfo& u )
 	}
 
 }
+
+bool AdminUser::DelRecByNT( wstring& name_, wstring& time_get )
+{
+
+	if (name_.empty())
+	{
+		return false;
+	}
+
+	if (time_get.empty())
+	{
+		return false;
+	}
+	CDatabaseCon con;
+
+	bool res = con.Connect_(2003, wstring(L".\\newe.mdb"), UString(L""), UString(L""));
+
+	if (!res)
+	{
+		return false;
+	}
+
+	wstring search_med = wstring(L"SELECT * FROM UserMedRecord");
+
+	res = con.ExecuteSql(search_med);
+	if (!res)
+	{
+		return false;
+	}
+
+	if (!con.GoFirst())
+	{
+		return false;
+	}
+
+	try
+	{
+		UserLoginfo linfo;
+		while(!con.Eof())
+		{
+
+			wstring username = con.GetValueStr(wstring(L"User"));
+			wstring time_ = con.GetValueStr(wstring(L"time"));
+			if (time_get == wstring(L"ANY"))
+			{
+				if (name_ == username)
+				{
+					con.DelCurrentRec();
+				}
+			}else
+			{
+				if (name_ == username&&time_ == time_get)
+				{
+					con.DelCurrentRec();
+					break;
+				}
+			}
+			
+			con.NextRecord();
+		}
+
+	}catch(_com_error e)
+	{
+		return false;
+	}
+
+	con.UpdateOk();
+	return true;
+}
+
+bool AdminUser::DelUserInfo( wstring& uname )
+{
+	if (uname.empty())
+	{
+		return false;
+	}
+
+	CDatabaseCon con;
+
+	bool res = con.Connect_(2003, wstring(L".\\newe.mdb"), UString(L""), UString(L""));
+
+	if (!res)
+	{
+		return false;
+	}
+
+	wstring search_med = wstring(L"SELECT * FROM UserInfo");
+
+	res = con.ExecuteSql(search_med);
+	if (!res)
+	{
+		return false;
+	}
+
+	if (!con.GoFirst())
+	{
+		return false;
+	}
+
+	try
+	{
+		UserLoginfo linfo;
+		while(!con.Eof())
+		{
+
+			wstring username = con.GetValueStr(wstring(L"User"));
+			if (uname == username)
+			{
+				con.DelCurrentRec();
+				con.UpdateOk();
+				break;
+			}
+			con.NextRecord();
+		}
+
+	}catch(_com_error e)
+	{
+		return false;
+	}
+
+	return true;
+}
+
+bool AdminUser::DelUser( wstring& uname )
+{
+	if (uname.empty())
+	{
+		return false;
+	}
+
+	CDatabaseCon con;
+
+	bool res = con.Connect_(2003, wstring(L".\\newe.mdb"), UString(L""), UString(L""));
+
+	if (!res)
+	{
+		return false;
+	}
+
+	wstring search_med = wstring(L"SELECT * FROM UserTab");
+
+	res = con.ExecuteSql(search_med);
+	if (!res)
+	{
+		return false;
+	}
+
+	if (!con.GoFirst())
+	{
+		return false;
+	}
+
+	try
+	{
+		UserLoginfo linfo;
+		while(!con.Eof())
+		{
+
+			wstring username = con.GetValueStr(wstring(L"User"));
+			if (uname == username)
+			{
+				con.DelCurrentRec();
+				con.UpdateOk();
+				break;
+			}
+			con.NextRecord();
+		}
+
+	}catch(_com_error e)
+	{
+		return false;
+	}
+
+	return true;
+}
+
+bool AdminUser::DelUserSick( wstring &uname )
+{
+	if (uname.empty())
+	{
+		return false;
+	}
+
+	CDatabaseCon con;
+
+	bool res = con.Connect_(2003, wstring(L".\\newe.mdb"), UString(L""), UString(L""));
+
+	if (!res)
+	{
+		return false;
+	}
+
+	wstring search_med = wstring(L"SELECT * FROM UserTab");
+
+	res = con.ExecuteSql(search_med);
+	if (!res)
+	{
+		return false;
+	}
+
+	if (!con.GoFirst())
+	{
+		return false;
+	}
+
+	try
+	{
+		UserLoginfo linfo;
+		while(!con.Eof())
+		{
+
+			wstring username = con.GetValueStr(wstring(L"User"));
+			if (uname == username)
+			{
+				con.DelCurrentRec();
+				con.UpdateOk();
+				break;
+			}
+			con.NextRecord();
+		}
+
+	}catch(_com_error e)
+	{
+		return false;
+	}
+
+	return true;
+}
+

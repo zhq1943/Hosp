@@ -43,6 +43,7 @@ BEGIN_MESSAGE_MAP(CDlgAdminGLSick, CDialog)
 	ON_BN_CLICKED(IDC_BUTTON_PER, &CDlgAdminGLSick::OnBnClickedButtonPer)
 	ON_BN_CLICKED(IDC_BUTTON_NEXT, &CDlgAdminGLSick::OnBnClickedButtonNext)
 	ON_BN_CLICKED(IDC_BUTTON_DELREC, &CDlgAdminGLSick::OnBnClickedButtonDelrec)
+	ON_CBN_SELCHANGE(IDC_COMBO1_TIMEGLSICK, &CDlgAdminGLSick::OnCbnSelchangeCombo1Timeglsick)
 END_MESSAGE_MAP()
 
 
@@ -92,9 +93,13 @@ void CDlgAdminGLSick::OnBnClickedButtonPer()
 	ind -= 1;
 	m_combo_time.SetCurSel(ind);
 
-	CString time_g = *((CString*)m_combo_time.GetItemData(ind));
 
-	GetRecordbyTime(wstring(time_g));
+	UpdateData(FALSE);
+
+	CString time_comb;
+	m_combo_time.GetWindowTextW(time_comb);
+
+	GetRecordbyTime(wstring(time_comb));
 }
 
 
@@ -109,9 +114,12 @@ void CDlgAdminGLSick::OnBnClickedButtonNext()
 	ind += 1;
 	m_combo_time.SetCurSel(ind);
 
-	CString time_g = *((CString*)m_combo_time.GetItemData(ind));
+	UpdateData(FALSE);
 
-	GetRecordbyTime(wstring(time_g));
+	CString time_comb;
+	m_combo_time.GetWindowTextW(time_comb);
+
+	GetRecordbyTime(wstring(time_comb));
 	
 }
 
@@ -135,6 +143,10 @@ void CDlgAdminGLSick::SetSickInfo( CUser* user_)
 	if (user)
 	{
 		m_uname_ = user->GetUserName_().c_str();
+		if (m_uname_.IsEmpty())
+		{
+			return ;
+		}
 		UserInfoStru ustr;
 		user->GetUserInfo(ustr);
 		m_urname = ustr.name.c_str();
@@ -143,6 +155,7 @@ void CDlgAdminGLSick::SetSickInfo( CUser* user_)
 		user->GetMedRecdVector(all_record);
 		
 		wstring time_;
+		m_combo_time.ResetContent();
 		for (map<wstring, wstring>::iterator itor = all_record.begin();
 			itor != all_record.end();
 			itor++)
@@ -193,4 +206,35 @@ BOOL CDlgAdminGLSick::OnInitDialog()
 void CDlgAdminGLSick::OnBnClickedButtonDelrec()
 {
 	// TODO: Add your control notification handler code here
+	UpdateData();
+	AdminUser user;
+	CString time_;
+	m_combo_time.GetWindowTextW(time_);
+	bool res = user.DelRecByNT(wstring(m_uname_), wstring(time_));
+	if (res)
+	{
+		AfxMessageBox(L"É¾³ý³É¹¦");
+	}else
+	{
+		AfxMessageBox(L"É¾³ýÊ§°Ü");
+	}
+}
+
+
+void CDlgAdminGLSick::OnCbnSelchangeCombo1Timeglsick()
+{
+	// TODO: Add your control notification handler code here
+	CString time_;
+	m_combo_time.GetWindowTextW(time_);
+
+	GetRecordbyTime(wstring(time_));
+}
+
+void CDlgAdminGLSick::RestData()
+{
+	m_combo_time.ResetContent();
+	m_sickrecord = L"";
+	m_uname_ = L"";
+	m_urname = L"";
+	UpdateData(FALSE);
 }

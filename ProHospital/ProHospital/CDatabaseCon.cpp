@@ -227,6 +227,19 @@ bool CDatabaseCon::NewRecord()
 	}
 }
 
+bool CDatabaseCon::DelCurrentRec()
+{
+	try
+	{
+		m_RecSet->Delete(adAffectCurrent);
+	}catch(_com_error e)
+	{
+		return false;
+	}
+
+	return true;
+}
+
 
 UString HelpFun::FormattoUStr( const char* str,... )
 {

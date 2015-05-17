@@ -33,6 +33,7 @@ BEGIN_MESSAGE_MAP(CDlgAdminGLUser, CDialog)
 	ON_NOTIFY(NM_RCLICK, IDC_LIST_USER, &CDlgAdminGLUser::OnNMRClickListUser)
 	ON_COMMAND(32771, &CDlgAdminGLUser::On32771)
 	ON_COMMAND(32772, &CDlgAdminGLUser::On32772)
+	ON_BN_CLICKED(IDOK, &CDlgAdminGLUser::OnBnClickedOk)
 END_MESSAGE_MAP()
 
 BOOL CDlgAdminGLUser::OnInitDialog()
@@ -161,4 +162,17 @@ void CDlgAdminGLUser::On32772()
 	dlg_mima.SetUName(sel_user);
 	dlg_mima.SetUserLgInfo(m_lginfo);
 	dlg_mima.DoModal();
+}
+
+
+void CDlgAdminGLUser::OnBnClickedOk()
+{
+	// TODO: Add your control notification handler code here
+	//CDialog::OnOK();
+}
+
+void CDlgAdminGLUser::RestData()
+{
+	m_usergl.DeleteAllItems();
+	UpdateData(FALSE);
 }

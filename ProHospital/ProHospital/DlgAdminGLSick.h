@@ -38,4 +38,6 @@ public:
 
 	virtual BOOL OnInitDialog();
 	afx_msg void OnBnClickedButtonDelrec();
+	afx_msg void OnCbnSelchangeCombo1Timeglsick();
+	void  RestData();
 };

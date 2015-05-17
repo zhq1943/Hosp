@@ -27,6 +27,7 @@ public:
 	bool        SetValueInt(UString& key, int i);
 	bool        NewRecord();
 	bool        UpdateOk();
+	bool        DelCurrentRec();
 
 protected:
 	_RecordsetPtr m_RecSet;
