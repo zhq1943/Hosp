@@ -25,6 +25,18 @@ struct UserInfoStru
 	wstring liveplace;//userplace
 	wstring marrys;//ifmarry
 	wstring uname; //user
+
+	UserInfoStru()
+	{
+		name = L"δ֪";
+		uname = L"Unknow";
+		sex = L"δ֪";
+		birthday = L"δ֪";
+		birthplace = L"δ֪";
+		warkplace = L"δ֪";
+		liveplace = L"δ֪";
+		marrys = L"δ֪";
+	}
 };
 
 struct UserSickInfo
@@ -43,6 +55,24 @@ struct UserSickInfo
 	wstring incheck;
 	wstring outcheck;
 	wstring ntalk;
+
+	UserSickInfo()
+	{
+		name = L"δ֪";
+		uname = L"Unknow";
+		timein = L"δ֪";
+		timewrite = L"δ֪";
+		patkb = L"δ֪";
+		badid = L"δ֪";
+		hosid = L"δ֪";
+		pasid =  L"δ֪";
+		ttalk = L"δ֪";
+		mtalk = L"δ֪";
+		nsick = L"δ֪";
+		incheck = L"δ֪";
+		outcheck = L"δ֪";
+		ntalk = L"δ֪";
+	}
 };
 
 struct UserRecordInfo
@@ -50,6 +80,14 @@ struct UserRecordInfo
 	wstring time_;
 	wstring user_;
 	wstring record;
+
+	UserRecordInfo()
+	{
+		time_ = L"unknow";
+		user_ = L"unknow";
+		record = L"�޼�¼";
+
+	}
 };
 class CUser
 {

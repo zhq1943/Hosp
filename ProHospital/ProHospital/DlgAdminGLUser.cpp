@@ -228,7 +228,7 @@ void CDlgAdminGLUser::OnBnClickedButtonSearchuser()
 			UserLoginfo uinof = *itor;
 			if (uinof.name == wstring(m_ed_searstr))
 			{
-				m_usergl.InsertItem(i, m_ed_searstr);
+				m_usergl.InsertItem(i, uinof.uname.c_str());
 				m_usergl.SetItemText(i, 1, uinof.name.c_str());
 				m_usergl.SetItemText(i, 2, uinof.lasttime.c_str());
 			}
@@ -272,5 +272,6 @@ void CDlgAdminGLUser::OnNMClickListUser(NMHDR *pNMHDR, LRESULT *pResult)
 void CDlgAdminGLUser::OnBnClickedButton2()
 {
 	// TODO: Add your control notification handler code here
+	admin_->GetUserLoginInfo(allinfo);
 	SetInfo(allinfo);
 }

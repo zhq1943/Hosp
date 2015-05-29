@@ -67,7 +67,32 @@ void CDlgChangeMIMA::OnBnClickedOk()
 		m_lginfo.password = m_mima1;
 		m_lginfo.per_ = 0;
 		AdminUser aduser;
-		aduser.UpdateNorLogin(m_lginfo);
+		bool res = aduser.UpdateNorLogin(m_lginfo);
+		if (res)
+		{
+			
+			//init userinfo
+			UserInfoStru stru_info;
+			stru_info.name = m_lginfo.name;
+			stru_info.uname = m_lginfo.uname;
+			bool res_ = aduser.UpdateNorUser(stru_info);
+
+			UserSickInfo stru_sick;
+			stru_sick.name = m_lginfo.name;
+			stru_sick.uname = m_lginfo.uname;
+			bool res = aduser.UpdateNorSick(stru_sick);
+
+			UserRecordInfo stru_rec;
+			stru_rec.time_ = m_lginfo.lasttime;
+			stru_rec.user_ = m_lginfo.uname;
+			aduser.UpdateUserRecord(stru_rec);
+
+			AfxMessageBox(L"添加成功");
+		}else
+		{
+			AfxMessageBox(L"添加失败");
+		}
+		
 	}else
 	{
 
